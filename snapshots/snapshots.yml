@@ -4,5 +4,5 @@ snapshots:
    config:
      unique_key: o_orderkey
      strategy: timestamp
-     updated_at: o_orderdate
+     updated_at: o_orderdate::timestamp
      invalidate_hard_deletes: true

@@ -20,7 +20,7 @@ region as (
 
 ),
 customer_flags as (
-    select * from {{ ref('customer_flags') }}
+    select * from {{ ref('int_customer_flags') }}
 ),
 
 final as (

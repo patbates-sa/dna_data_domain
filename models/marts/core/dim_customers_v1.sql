@@ -21,7 +21,7 @@ region as (
 ),
 customer_tier as (
   
-    select * from {{ ref('customer_tier') }}
+    select * from {{ ref('int_customer_tier') }}
 
 ),
 final as (
