@@ -1,4 +1,4 @@
-# Name your project! Project names should contain only lowercase characters
+# Name of the project and initial config info
 name: 'data_engineering'
 version: '1.0.0'
 dbt-cloud:
