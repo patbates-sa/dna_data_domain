@@ -1,0 +1,8 @@
+snapshots:
+ - name: orders_snapshot
+   relation: source('tpch_now', 'orders')
+   config:
+     unique_key: o_orderkey
+     strategy: timestamp
+     updated_at: o_orderdate
+     invalidate_hard_deletes: true
