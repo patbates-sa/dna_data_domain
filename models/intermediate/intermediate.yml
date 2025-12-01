@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: order_items
+  - name: int_order_items
     description: Intermediate model where we calculate item price, discounts and tax. This model is at the order item level.
     columns:
       - name: order_item_key
@@ -60,7 +60,7 @@ models:
     config:
       tags:
         - output_table_type|orders
-  - name: part_suppliers
+  - name: int_part_suppliers
     description: Intermediate model where we join part, supplier and part_supplier. This model is at the part supplier level.
     columns:
       - name: part_supplier_key
@@ -101,7 +101,7 @@ models:
       - name: cost
         description: '{{ doc("cost") }}'
 
-  - name: customer_tier
+  - name: int_customer_tier
     description: puts customers into tiers (1-4)
     columns:
       - name: customer_key
@@ -113,7 +113,7 @@ models:
 unit_tests:
   - name: tiers_are_working
     description: "check if the logic for tiering is working correctly"
-    model: customer_tier
+    model: int_customer_tier
     given:
       - input: ref('stg_tpch_customers')
         format: dict
