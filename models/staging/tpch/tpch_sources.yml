@@ -171,7 +171,6 @@ sources:
         config:
           freshness:
             warn_after: {count: 3, period: day}
-          loaded_at_field: o_orderdate
 
         columns:
           - name: o_orderkey
@@ -267,6 +266,5 @@ sources:
         config:
           freshness:
             warn_after: {count: 3, period: day}
-          loaded_at_field: l_shipdate
           meta:
             schema: tpch_now
