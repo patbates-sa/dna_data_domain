@@ -100,6 +100,9 @@ models:
 
   - name: dim_suppliers
     description: Suppliers dimensions table
+    config:
+      group: data_team
+      access: public
     columns:
       - name: supplier_key
         description: primary key of the model
@@ -191,6 +194,9 @@ models:
       access: public
   - name: fct_orders
     description: orders fact table
+    config:
+      group: data_team
+      access: public
     columns:
       - name: order_key
         description: primary key of the model
