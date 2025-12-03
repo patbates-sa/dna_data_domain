@@ -1,3 +1,7 @@
+{{ config(
+    materialized='incremental',
+    unique_key='order_item_key'
+) }}
 
 with orders as (
     
@@ -54,5 +58,10 @@ from
     orders
 inner join line_item
         on orders.order_key = line_item.order_key
+
+{% if is_incremental() %}
+    where orders.order_date >= (select coalesce(max(order_date), '1900-01-01') from {{ this }})
+{% endif %}
+
 order by
     orders.order_date

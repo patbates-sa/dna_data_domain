@@ -1,3 +1,8 @@
+{{ config(
+    materialized='incremental',
+    unique_key='part_supplier_key'
+) }}
+
 with part as (
     
     select * from {{ ref('stg_tpch_parts') }}
@@ -51,3 +56,7 @@ order by
 )
 
 select * from final
+
+{% if is_incremental() %}
+    where part_supplier_key not in (select part_supplier_key from {{ this }})
+{% endif %}
