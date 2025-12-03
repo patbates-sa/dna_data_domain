@@ -168,6 +168,10 @@ sources:
     tables:
       - name: orders
         description: main order tracking table
+        config:
+          freshness:
+            warn_after: {count: 3, period: day}
+          loaded_at_field: o_orderdate
 
         columns:
           - name: o_orderkey
@@ -261,5 +265,8 @@ sources:
             description: '{{ doc("comment") }}'
 
         config:
+          freshness:
+            warn_after: {count: 3, period: day}
+          loaded_at_field: l_shipdate
           meta:
             schema: tpch_now
