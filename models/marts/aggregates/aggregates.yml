@@ -7,6 +7,76 @@ models:
         data_tests:
           - unique
 
+  - name: agg_customer_orders
+    description: >
+      Aggregated order metrics by customer. Combines order item facts with customer 
+      dimensions to provide a summary of each customer's ordering behavior including 
+      total orders, sales amounts, and return counts.
+    columns:
+      - name: customer_key
+        description: Unique identifier for the customer
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: Name of the customer
+      - name: nation
+        description: Nation where the customer is located
+      - name: region
+        description: Region where the customer is located
+      - name: market_segment
+        description: Market segment the customer belongs to
+      - name: total_orders
+        description: Total number of distinct orders placed by the customer
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+      - name: total_order_items
+        description: Total number of order line items for the customer
+      - name: total_gross_sales
+        description: Sum of gross sales amount for all order items
+      - name: total_net_sales
+        description: Sum of net sales amount for all order items
+      - name: total_returns
+        description: Count of returned order items
+      - name: avg_order_item_value
+        description: Average gross sales value per order item
+
+  - name: agg_supplier_orders
+    description: >
+      Aggregated order metrics by supplier. Combines order item facts with supplier 
+      dimensions to provide a summary of each supplier's order volume, revenue, 
+      costs, and gross margin.
+    columns:
+      - name: supplier_key
+        description: Unique identifier for the supplier
+        data_tests:
+          - unique
+          - not_null
+      - name: supplier_name
+        description: Name of the supplier
+      - name: nation
+        description: Nation where the supplier is located
+      - name: region
+        description: Region where the supplier is located
+      - name: total_orders
+        description: Total number of distinct orders containing items from this supplier
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+      - name: total_order_items
+        description: Total number of order line items from this supplier
+      - name: total_gross_sales
+        description: Sum of gross sales amount for all order items from this supplier
+      - name: total_net_sales
+        description: Sum of net sales amount for all order items from this supplier
+      - name: total_supplier_cost
+        description: Total cost paid to the supplier for all items
+      - name: gross_margin
+        description: Difference between gross sales and supplier cost
+
 exposures:
   - name: returned_orders
     type: dashboard
