@@ -1,0 +1,13 @@
+selectors:
+  - name: models_designed_to_fail
+    description: >
+      Models and tests that are designed to fail for demo purposes.
+      Includes agg_supplier_orders test (total_orders > 650) and 
+      agg_returned_orders_by_month threshold test (return_rate > 50%).
+    definition:
+      union:
+        - method: tag
+          value: designed_to_fail
+        - method: fqn
+          value: agg_returned_orders_by_month_threshold
+

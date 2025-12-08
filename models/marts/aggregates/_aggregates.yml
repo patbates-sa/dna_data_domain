@@ -98,6 +98,14 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               arguments:
                 min_value: 0
+          - dbt_expectations.expect_column_values_to_be_between:
+              name: agg_supplier_orders_total_orders_under_650
+              config:
+                severity: warn
+                store_failures: true
+                tags: ['designed_to_fail']
+              arguments:
+                max_value: 650
       - name: total_order_items
         description: Total number of order line items from this supplier
       - name: total_gross_sales
