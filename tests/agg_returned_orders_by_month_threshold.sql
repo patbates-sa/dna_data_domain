@@ -2,6 +2,7 @@
     config(
         enabled=true,
         severity='error',
+        tags=['designed_to_fail']
     )
 }}
 
