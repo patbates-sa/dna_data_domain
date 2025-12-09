@@ -22,6 +22,8 @@ models:
     description: >
       Monthly aggregation of returned orders and return rates. Tracks the number of 
       returned order items and calculates the return rate as a percentage of total orders.
+    config:
+      tags: ['designed_to_fail']
     columns:
       - name: order_month
         description: The first day of the month for the aggregated return data
@@ -80,6 +82,8 @@ models:
       Aggregated order metrics by supplier. Combines order item facts with supplier 
       dimensions to provide a summary of each supplier's order volume, revenue, 
       costs, and gross margin.
+    config:
+      tags: ['designed_to_fail']
     columns:
       - name: supplier_key
         description: Unique identifier for the supplier
@@ -103,7 +107,6 @@ models:
               config:
                 severity: error
                 store_failures: true
-                tags: ['designed_to_fail']
               arguments:
                 max_value: 650
       - name: total_order_items
