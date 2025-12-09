@@ -107,6 +107,7 @@ models:
               config:
                 severity: error
                 store_failures: true
+                tags: ['designed_to_fail']
               arguments:
                 max_value: 650
       - name: total_order_items
