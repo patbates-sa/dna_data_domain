@@ -32,15 +32,15 @@
   {% set query_tag_sql = "ALTER SESSION SET QUERY_TAG = 'dbt_demo_simulate_query_traffic'" %}
   {% do run_query(query_tag_sql) %}
 
-  {% set total_queries = 0 %}
+  {% set query_count = namespace(value=0) %}
   
   {% for model_name in models %}
     {# Random hits between 10 and 20 for each model #}
-    {% set hits = range(10, 21) | random %}
+    {% set hits = range(10, 21) | list | random %}
     
     {% for i in range(hits) %}
       {# Random offset between 0 and 1000 #}
-      {% set random_offset = range(0, 1001) | random %}
+      {% set random_offset = range(0, 1001) | list | random %}
       
       {% set query_sql %}
         SELECT * 
@@ -51,14 +51,14 @@
       {% endset %}
       
       {% do run_query(query_sql) %}
-      {% set total_queries = total_queries + 1 %}
+      {% set query_count.value = query_count.value + 1 %}
     {% endfor %}
     
   {% endfor %}
 
-  {% do log("Simulated query traffic complete. Executed " ~ total_queries ~ " SELECTs.", info=True) %}
+  {% do log("Simulated query traffic complete. Executed " ~ query_count.value ~ " SELECTs.", info=True) %}
   
-  {{ return("Simulated query traffic complete. Executed " ~ total_queries ~ " SELECTs.") }}
+  {{ return("Simulated query traffic complete. Executed " ~ query_count.value ~ " SELECTs.") }}
 
 {% endmacro %}
 
