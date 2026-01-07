@@ -1,24 +1,22 @@
-version: 2
-
 macros:
   - name: test_all_values_gte_zero
     description: |
       A reusable test macro that validates all values in a specified column are greater than 
       or equal to zero.
-      
+
       This macro generates a SQL query that selects all rows where the specified column 
       contains negative values. Following dbt test conventions, the test passes if no rows 
       are returned (no negative values found) and fails if any rows are returned.
-      
+
       **Usage example:**
       ```sql
       {{ test_all_values_gte_zero('stg_tpch_orders', 'total_price') }}
       ```
-      
+
       **Current usage in tests:**
       - `macro_stg_tpch_orders_assert_pos_price.sql` - Validates `total_price` >= 0 in orders
       - `macro_stg_tphc_suppliers_assert_pos_acct_bal.sql` - Validates `account_balance` >= 0 in suppliers
-      
+
       **Use cases:**
       - Validating monetary amounts are non-negative
       - Ensuring counts and quantities are valid
@@ -34,4 +32,3 @@ macros:
         description: |
           The name of the column to validate. All values in this column will be checked 
           to ensure they are >= 0.
-
