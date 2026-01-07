@@ -1,0 +1,20 @@
+# Documentation for agg_monthly_gross_revenue model
+# Monthly aggregation of gross revenue from order items
+
+models:
+  - name: agg_monthly_gross_revenue
+    description: >
+      Monthly aggregation of gross revenue from order items. Provides a time-series 
+      view of total gross sales by month for trend analysis and reporting.
+    columns:
+      - name: order_month
+        description: The first day of the month for the aggregated order data
+        data_tests:
+          - unique
+          - not_null
+      - name: gross_revenue
+        description: Sum of gross item sales amount for all orders in the month
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0

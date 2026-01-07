@@ -1,0 +1,8 @@
+# Groups configuration for the dbt project
+# This file defines ownership and access control groups for models
+
+groups:
+  - name: data_team
+    owner:
+      name: Data Team
+      email: data@acme.co

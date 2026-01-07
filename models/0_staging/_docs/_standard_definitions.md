@@ -1,4 +1,6 @@
-# the intent of this .md is to remove redundancy in the documentation
+# Standard Definitions
+# This file contains reusable doc blocks to remove redundancy in model documentation
+# Use these definitions with the {{ doc("definition_name") }} syntax in yml files
 
 
 # the below are descriptions from stg_tpch_line_items
@@ -45,3 +47,4 @@
 {% docs available_quantity %} raw available quantity {% enddocs %}
 
 {% docs cost %} raw cost {% enddocs %}
+

@@ -1,0 +1,30 @@
+version: 2
+
+macros:
+  - name: block_on_tests
+    description: |
+      A macro that executes a list of test query macros and blocks the dbt run if any test fails.
+
+      This macro iterates through each test query in the provided list, executes it, and checks
+      if the result indicates a pass (0 rows returned) or fail (any rows returned). If any test
+      fails, a compiler error is raised which halts the dbt execution.
+
+      **Usage:**
+      - Pass a list of SQL queries that return 0 rows on success
+      - Useful for implementing custom pre/post-run validations
+      - Can be used in pre-hooks or post-hooks to enforce data quality gates
+
+      **Behavior:**
+      - Each test is executed sequentially
+      - A test passes if the first column of the first row equals 0
+      - A test fails if the first column of the first row is non-zero
+      - On failure, raises a compiler error with the test index number
+
+      **Debug logging:** Logs "TEST {n}: PASS" as SQL comments for passing tests.
+    arguments:
+      - name: list_of_test_macros
+        type: list
+        description: |
+          A list of SQL query strings to execute as tests. Each query should return 0 
+          (in the first column of the first row) to indicate a passing test, or any 
+          non-zero value to indicate failure.

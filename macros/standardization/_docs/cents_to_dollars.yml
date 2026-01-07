@@ -1,0 +1,43 @@
+version: 2
+
+macros:
+  - name: cents_to_dollars
+    description: |
+      A macro to convert monetary values from cents to dollars with configurable precision.
+      
+      This macro divides the input column by 100 and casts the result to a numeric type
+      with 16 total digits and a configurable number of decimal places (default: 2).
+      
+      **Usage example:**
+      ```sql
+      select
+        id as payment_id,
+        {{ cents_to_dollars('amount') }} as amount_usd,
+        {{ cents_to_dollars('fee', precision=4) }} as fee_usd
+      from payments
+      ```
+      
+      This compiles to:
+      ```sql
+      select
+        id as payment_id,
+        (amount / 100)::numeric(16, 2) as amount_usd,
+        (fee / 100)::numeric(16, 4) as fee_usd
+      from payments
+      ```
+      
+      **Use cases:**
+      - Converting payment amounts stored in cents to dollar display values
+      - Standardizing currency conversions across the data warehouse
+      - Ensuring consistent numeric precision for financial calculations
+    arguments:
+      - name: column_name
+        type: string
+        description: |
+          The name of the column containing the value in cents that you want to 
+          convert to dollars. This should be a numeric column.
+      - name: precision
+        type: integer
+        description: |
+          The number of decimal places for the resulting dollar amount. 
+          Defaults to 2 (standard cents precision: $XX.XX).

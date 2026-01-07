@@ -1,0 +1,18 @@
+# Documentation for stg_tpch_nations model
+# Staging layer for nations data
+
+models:
+  - name: stg_tpch_nations
+    description: Staging layer for nations data
+    columns:
+      - name: nation_key
+        description: Primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: name
+        description: Nation name
+      - name: region_key
+        description: Foreign key to stg_tpch_regions
+      - name: comment
+        description: Additional commentary

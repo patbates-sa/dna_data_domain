@@ -1,0 +1,39 @@
+# Documentation for agg_customer_orders model
+# Aggregated order metrics by customer
+
+models:
+  - name: agg_customer_orders
+    description: >
+      Aggregated order metrics by customer. Combines order item facts with customer 
+      dimensions to provide a summary of each customer's ordering behavior including 
+      total orders, sales amounts, and return counts.
+    columns:
+      - name: customer_key
+        description: Unique identifier for the customer
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: Name of the customer
+      - name: nation
+        description: Nation where the customer is located
+      - name: region
+        description: Region where the customer is located
+      - name: market_segment
+        description: Market segment the customer belongs to
+      - name: total_orders
+        description: Total number of distinct orders placed by the customer
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+      - name: total_order_items
+        description: Total number of order line items for the customer
+      - name: total_gross_sales
+        description: Sum of gross sales amount for all order items
+      - name: total_net_sales
+        description: Sum of net sales amount for all order items
+      - name: total_returns
+        description: Count of returned order items
+      - name: avg_order_item_value
+        description: Average gross sales value per order item

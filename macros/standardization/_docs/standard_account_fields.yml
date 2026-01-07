@@ -1,0 +1,46 @@
+version: 2
+
+macros:
+  - name: standard_account_fields
+    description: |
+      A macro that returns a comma-separated list of standard accounting fields for 
+      consistent column selection across models.
+      
+      This macro helps maintain consistency across financial models by providing a 
+      single source of truth for which accounting fields should be included. When the 
+      standard set of fields needs to change, you only need to update this macro rather 
+      than modifying multiple models.
+      
+      **Fields returned:**
+      - `gross_item_sales_amount` - Total sales before discounts and taxes
+      - `item_discount_amount` - Discount amount applied to the item
+      - `item_tax_amount` - Tax amount for the item
+      - `net_item_sales_amount` - Final amount after discounts and taxes
+      
+      **Usage example:**
+      ```sql
+      select
+        order_id,
+        customer_id,
+        {{ standard_account_fields() }}
+      from order_items
+      ```
+      
+      This compiles to:
+      ```sql
+      select
+        order_id,
+        customer_id,
+        gross_item_sales_amount,
+        item_discount_amount,
+        item_tax_amount,
+        net_item_sales_amount
+      from order_items
+      ```
+      
+      **Use cases:**
+      - Ensuring consistent accounting field selection across aggregate models
+      - Simplifying model maintenance when accounting fields change
+      - Documenting which fields are considered "standard" for financial reporting
+      
+      **Note:** This macro takes no arguments and always returns the same set of fields.

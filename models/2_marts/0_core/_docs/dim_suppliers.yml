@@ -1,0 +1,27 @@
+# Documentation for dim_suppliers model
+# Suppliers dimensions table
+
+models:
+  - name: dim_suppliers
+    description: Suppliers dimensions table
+    config:
+      group: data_team
+      access: public
+    columns:
+      - name: supplier_key
+        description: Primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: supplier_name
+        description: '{{ doc("supplier_name") }}'
+      - name: supplier_address
+        description: '{{ doc("supplier_address") }}'
+      - name: nation
+        description: Nation name
+      - name: region
+        description: Region name
+      - name: phone_number
+        description: '{{ doc("phone_number") }}'
+      - name: account_balance
+        description: '{{ doc("account_balance") }}'
