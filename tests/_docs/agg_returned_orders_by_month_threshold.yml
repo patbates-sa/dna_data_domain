@@ -1,0 +1,15 @@
+# Documentation for the agg_returned_orders_by_month_threshold singular test
+
+data_tests:
+  - name: agg_returned_orders_by_month_threshold
+    description: >
+      Validates that the return rate for the most recent month does not exceed 50%.
+
+      This test acts as an early warning system for unusually high return rates,
+      which may indicate product quality issues, fulfillment problems, or data anomalies.
+
+      Logic:
+        1. Selects the most recent month from agg_returned_orders_by_month
+        2. Fails if any record in that month has a return_rate > 0.50 (50%)
+
+      Returns rows from the most recent month where return_rate exceeds 50% (failures).
