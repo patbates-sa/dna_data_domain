@@ -1,0 +1,16 @@
+# Exposures for aggregate mart models
+# These exposures depend on aggregate models
+
+exposures:
+  - name: returned_orders
+    type: dashboard
+    maturity: high
+    url: https://fishtown.looker.com/dashboards/606
+    description: Tracks how return rate is trending over time
+
+    depends_on:
+      - ref('agg_returned_orders_by_month')
+
+    owner:
+      name: Alex 
+      email: alex.dinsmoor@dbtlabs.com

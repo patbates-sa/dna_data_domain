@@ -1,0 +1,21 @@
+# Documentation for int_customer_flags model
+# Intermediate model for customer value flags
+
+models:
+  - name: int_customer_flags
+    description: ""
+    columns:
+      - name: customer_key
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: lifetime_value
+        description: ""
+      - name: is_high_value
+        description: ""
+      - name: is_mid_value
+        description: ""
+      - name: is_low_value
+        description: ""
+

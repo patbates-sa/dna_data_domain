@@ -1,0 +1,22 @@
+# Documentation for stg_tpch_part_suppliers model
+# Staging layer for part suppliers data
+
+models:
+  - name: stg_tpch_part_suppliers
+    description: Staging layer for part suppliers data
+    columns:
+      - name: part_supplier_key
+        description: Surrogate key for the model, a combination of ps_partkey and ps_suppkey
+        data_tests:
+          - unique
+          - not_null
+      - name: part_key
+        description: Foreign key to stg_tpch_parts
+      - name: supplier_key
+        description: Foreign key to stg_tpch_suppliers
+      - name: available_quantity
+        description: '{{ doc("available_quantity") }}'
+      - name: cost
+        description: '{{ doc("cost") }}'
+      - name: comment
+        description: '{{ doc("comment") }}'

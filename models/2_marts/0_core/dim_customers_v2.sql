@@ -19,8 +19,20 @@ region as (
     select * from {{ ref('stg_tpch_regions') }}
 
 ),
+/*
+# v2: Replaced customer_tier with customer_flags
+# This comment can be removed once the v1 model is deleted.
+
+customer_tier as (
+  
+    select * from {{ ref('int_customer_tier') }}
+
+),
+*/
 customer_flags as (
+
     select * from {{ ref('int_customer_flags') }}
+
 ),
 
 final as (

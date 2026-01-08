@@ -1,0 +1,16 @@
+# Documentation for stg_tpch_regions model
+# Staging layer for regions data
+
+models:
+  - name: stg_tpch_regions
+    description: Staging layer for regions data
+    columns:
+      - name: region_key
+        description: Primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: name
+        description: Region name
+      - name: comment
+        description: '{{ doc("comment") }}'

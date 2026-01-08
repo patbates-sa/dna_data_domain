@@ -1,0 +1,47 @@
+# Documentation for agg_supplier_orders model
+# Aggregated order metrics by supplier
+
+models:
+  - name: agg_supplier_orders
+    description: >
+      Aggregated order metrics by supplier. Combines order item facts with supplier 
+      dimensions to provide a summary of each supplier's order volume, revenue, 
+      costs, and gross margin.
+    config:
+      tags: ['designed_to_fail']
+    columns:
+      - name: supplier_key
+        description: Unique identifier for the supplier
+        data_tests:
+          - unique
+          - not_null
+      - name: supplier_name
+        description: Name of the supplier
+      - name: nation
+        description: Nation where the supplier is located
+      - name: region
+        description: Region where the supplier is located
+      - name: total_orders
+        description: Total number of distinct orders containing items from this supplier
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+          - dbt_expectations.expect_column_values_to_be_between:
+              name: agg_supplier_orders_total_orders_under_650
+              config:
+                severity: error
+                store_failures: true
+                tags: ['designed_to_fail']
+              arguments:
+                max_value: 650
+      - name: total_order_items
+        description: Total number of order line items from this supplier
+      - name: total_gross_sales
+        description: Sum of gross sales amount for all order items from this supplier
+      - name: total_net_sales
+        description: Sum of net sales amount for all order items from this supplier
+      - name: total_supplier_cost
+        description: Total cost paid to the supplier for all items
+      - name: gross_margin
+        description: Difference between gross sales and supplier cost

@@ -1,0 +1,44 @@
+# Documentation for int_part_suppliers model
+# Intermediate model joining part, supplier and part_supplier data
+
+models:
+  - name: int_part_suppliers
+    description: Intermediate model where we join part, supplier and part_supplier. This model is at the part supplier level.
+    columns:
+      - name: part_supplier_key
+        description: Primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: part_key
+        description: Foreign key for parts
+      - name: part_name
+        description: Name of the part
+      - name: manufacturer
+        description: Manufacturer of the part
+      - name: brand
+        description: Brand of the part
+      - name: part_type
+        description: Type of part including material
+      - name: part_size
+        description: Size of the part
+      - name: container
+        description: Container of the part
+      - name: retail_price
+        description: '{{ doc("retail_price") }}'
+      - name: supplier_key
+        description: Foreign key for suppliers
+      - name: supplier_name
+        description: '{{ doc("supplier_name") }}'
+      - name: supplier_address
+        description: '{{ doc("supplier_address") }}'
+      - name: phone_number
+        description: '{{ doc("phone_number") }}'
+      - name: account_balance
+        description: '{{ doc("account_balance") }}'
+      - name: nation_key
+        description: Foreign key for nations
+      - name: available_quantity
+        description: '{{ doc("available_quantity") }}'
+      - name: cost
+        description: '{{ doc("cost") }}'

@@ -1,0 +1,32 @@
+# Exposures for core mart models
+# These exposures depend on fct_orders, dim_suppliers, and dim_customers
+
+exposures:
+  - name: active_orders
+    type: dashboard
+    maturity: high
+    url: https://fishtown.looker.com/dashboards/493
+    description: Displays exponential growth trends for active orders
+    
+    depends_on:
+      - ref('fct_orders')
+      - ref('dim_suppliers')
+      
+    owner:
+      name: Isabela 
+      email: isabela@dbtlabs.com
+
+  - name: business_pulse
+    type: dashboard
+    maturity: high
+    url: https://public.tableau.com/app/profile/mike.burke2608/viz/BDLDemo/BusinessPulse_1
+    description: Business Pulse dashboard for insights on orders, used by anyone looking to understand order trends
+    
+    depends_on:
+      - ref('fct_orders')
+      - ref('dim_suppliers')
+      - ref('dim_customers')
+
+    owner:
+      name: Business Operations Team 
+      email: bizops@dbtlabs.com

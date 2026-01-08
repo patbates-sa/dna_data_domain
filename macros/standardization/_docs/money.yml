@@ -1,0 +1,36 @@
+macros:
+  - name: money
+    description: |
+      A macro that returns a SQL type cast expression to standardize monetary values 
+      as decimal(16,3) throughout the data warehouse.
+
+      This macro outputs the SQL fragment `::decimal(16,3)` which can be appended to 
+      any numeric expression to cast it to the standard money format. Using this macro 
+      ensures consistency in how monetary values are stored and prevents precision issues.
+
+      **Usage:**
+      The macro is called WITHOUT parentheses around the column, as it returns a 
+      type cast suffix:
+      ```sql
+      (line_item.extended_price / quantity){{ money() }} as base_price
+      ```
+
+      This compiles to:
+      ```sql
+      (line_item.extended_price / quantity)::decimal(16,3) as base_price
+      ```
+
+      **Current usage:**
+      Used extensively in `int_order_items.sql` for standardizing all calculated 
+      monetary fields including:
+      - base_price
+      - discounted_price
+      - discounted_item_sales_amount
+      - item_discount_amount
+      - item_tax_amount
+      - net_item_sales_amount
+
+      **Why decimal(16,3)?**
+      - 16 total digits allows for large monetary values (up to trillions)
+      - 3 decimal places provides sub-cent precision for calculations while 
+        avoiding floating-point rounding errors

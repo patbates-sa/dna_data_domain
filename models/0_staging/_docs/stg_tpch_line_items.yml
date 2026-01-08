@@ -1,0 +1,56 @@
+# Documentation for stg_tpch_line_items model
+# Staging layer for line items data
+
+models:
+  - name: stg_tpch_line_items
+    description: Staging layer for line items data
+    columns:
+      - name: order_item_key
+        description: '{{ doc("order_item_key") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: order_key
+        description: Foreign key to stg_tpch_orders
+      - name: part_key
+        description: Foreign key to stg_tpch_part_suppliers
+      - name: supplier_key
+        description: Foreign key to stg_tpch_suppliers
+      - name: line_number
+        description: '{{ doc("line_number") }}'
+      - name: quantity
+        description: Total units
+      - name: extended_price
+        description: '{{ doc("extended_price") }}'
+      - name: discount_percentage
+        description: '{{ doc("discount_percentage") }}'
+      - name: tax_rate
+        description: Tax rate of the order item
+      - name: return_flag
+        description: '{{ doc("return_flag") }}'
+        data_tests:
+          - accepted_values:
+              config:
+                severity: warn
+              arguments:
+                values: ['returned', 'accepted']
+      - name: is_return
+        description: '{{ doc("is_return") }}'
+      - name: status_code
+        description: Status code of the order item
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['returned', 'billed', 'shipped']
+      - name: ship_date
+        description: '{{ doc("ship_date") }}'
+      - name: commit_date
+        description: '{{ doc("commit_date") }}'
+      - name: receipt_date
+        description: '{{ doc("receipt_date") }}'
+      - name: ship_instructions
+        description: Additional instructions on the shipment
+      - name: ship_mode
+        description: '{{ doc("ship_mode") }}'
+      - name: comment
+        description: '{{ doc("comment") }}'

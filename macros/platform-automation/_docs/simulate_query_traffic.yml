@@ -1,0 +1,35 @@
+macros:
+  - name: simulate_query_traffic
+    description: |
+      A utility macro that simulates query traffic against all models in the data warehouse 
+      for demonstration and testing purposes.
+
+      This macro is used to generate query history for warehouse monitoring dashboards.
+
+      **Behavior:**
+      - Disables cached results to ensure fresh query execution
+      - Sets a query tag 'dbt_demo_simulate_query_traffic' for easy identification in query history
+      - Iterates through all defined models (staging, intermediate, and marts)
+      - Executes 10-20 random SELECT queries per model with random offsets
+
+      **Usage:**
+      ```bash
+      dbt run-operation simulate_query_traffic
+      # Or with custom database/schema:
+      dbt run-operation simulate_query_traffic --args '{"database_name": "MY_DB", "schema_name": "MY_SCHEMA"}'
+      ```
+
+      **Debug logging:** Logs total number of SELECT statements executed upon completion.
+
+      **Note:** This macro is Snowflake-specific due to the use of ALTER SESSION commands.
+    arguments:
+      - name: database_name
+        type: string
+        description: |
+          The database name where the models are located. Defaults to `target.database` 
+          from the current dbt profile/target configuration.
+      - name: schema_name
+        type: string
+        description: |
+          The schema name where the models are located. Defaults to `target.schema` 
+          from the current dbt profile/target configuration.

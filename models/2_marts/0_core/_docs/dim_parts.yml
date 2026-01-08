@@ -1,0 +1,26 @@
+# Documentation for dim_parts model
+# Parts dimensions table
+
+models:
+  - name: dim_parts
+    description: Parts dimensions table
+    columns:
+      - name: part_key
+        description: Primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: manufacturer
+        description: Manufacturer of the part
+      - name: name
+        description: Name of the part
+      - name: brand
+        description: Brand of the part
+      - name: type
+        description: Type of part including material
+      - name: size
+        description: Size of the part
+      - name: container
+        description: Container of the part
+      - name: retail_price
+        description: '{{ doc("retail_price") }}'
