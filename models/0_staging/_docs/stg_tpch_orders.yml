@@ -16,6 +16,8 @@ models:
         description: Status of the order
       - name: total_price
         description: Raw price
+        data_tests:
+          - greater_than_or_equal_to_zero
       - name: order_date
         description: Date the order was made
       - name: order_time

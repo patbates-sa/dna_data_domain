@@ -20,5 +20,9 @@ models:
         description: '{{ doc("phone_number") }}'
       - name: account_balance
         description: '{{ doc("account_balance") }}'
+        data_tests:
+          - greater_than_or_equal_to_zero:
+              config:
+                severity: warn
       - name: comment
         description: '{{ doc("comment") }}'
