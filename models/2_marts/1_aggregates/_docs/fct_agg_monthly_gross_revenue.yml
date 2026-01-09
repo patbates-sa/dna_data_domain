@@ -1,8 +1,8 @@
-# Documentation for agg_monthly_gross_revenue model
+# Documentation for fct_agg_monthly_gross_revenue model
 # Monthly aggregation of gross revenue from order items
 
 models:
-  - name: agg_monthly_gross_revenue
+  - name: fct_agg_monthly_gross_revenue
     description: >
       Monthly aggregation of gross revenue from order items. Provides a time-series 
       view of total gross sales by month for trend analysis and reporting.

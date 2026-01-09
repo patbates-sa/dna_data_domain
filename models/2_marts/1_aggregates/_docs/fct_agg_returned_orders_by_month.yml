@@ -1,8 +1,8 @@
-# Documentation for agg_returned_orders_by_month model
+# Documentation for fct_agg_returned_orders_by_month model
 # Monthly aggregation of returned orders and return rates
 
 models:
-  - name: agg_returned_orders_by_month
+  - name: fct_agg_returned_orders_by_month
     description: >
       Monthly aggregation of returned orders and return rates. Tracks the number of 
       returned order items and calculates the return rate as a percentage of total orders.
@@ -24,3 +24,4 @@ models:
         description: Percentage of order items that were returned (returned_orders / total_orders)
       - name: row_count
         description: Total count of order items processed in the month
+
