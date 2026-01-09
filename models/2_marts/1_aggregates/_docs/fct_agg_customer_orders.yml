@@ -1,8 +1,8 @@
-# Documentation for agg_customer_orders model
+# Documentation for fct_agg_customer_orders model
 # Aggregated order metrics by customer
 
 models:
-  - name: agg_customer_orders
+  - name: fct_agg_customer_orders
     description: >
       Aggregated order metrics by customer. Combines order item facts with customer 
       dimensions to provide a summary of each customer's ordering behavior including 

@@ -9,8 +9,8 @@ exposures:
     description: Tracks how return rate is trending over time
 
     depends_on:
-      - ref('agg_returned_orders_by_month')
+      - ref('fct_agg_returned_orders_by_month')
 
     owner:
-      name: Alex 
+      name: Alex
       email: alex.dinsmoor@dbtlabs.com
