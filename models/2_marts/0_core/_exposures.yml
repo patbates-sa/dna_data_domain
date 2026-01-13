@@ -13,8 +13,8 @@ exposures:
       - ref('dim_suppliers')
       
     owner:
-      name: Isabela 
-      email: isabela@dbtlabs.com
+      name: Data Team
+      email: data@acme.co
 
   - name: business_pulse
     type: dashboard
@@ -28,5 +28,5 @@ exposures:
       - ref('dim_customers')
 
     owner:
-      name: Business Operations Team 
-      email: bizops@dbtlabs.com
+      name: Data Team
+      email: data@acme.co

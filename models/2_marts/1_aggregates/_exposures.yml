@@ -12,5 +12,5 @@ exposures:
       - ref('fct_agg_returned_orders_by_month')
 
     owner:
-      name: Alex
-      email: alex.dinsmoor@dbtlabs.com
+      name: Data Team
+      email: data@acme.co
