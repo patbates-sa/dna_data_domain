@@ -3,6 +3,7 @@ name: 'data_engineering'
 version: '1.0.0'
 dbt-cloud:
     project-id: 70437463662253
+    account-host: "tr995.us1.dbt.com"
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'analytics'
