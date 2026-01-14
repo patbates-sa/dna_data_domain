@@ -3,19 +3,30 @@
 
 models:
   - name: int_customer_flags
-    description: ""
+    description: >
+      Intermediate model that calculates customer value flags based on lifetime purchase 
+      behavior. Aggregates total order value per customer and assigns boolean flags 
+      indicating whether a customer falls into high, mid, or low value segments.
     columns:
       - name: customer_key
-        description: ""
+        description: Primary key of the model - unique identifier for each customer
         data_tests:
           - unique
           - not_null
       - name: lifetime_value
-        description: ""
+        description: >
+          Total cumulative value of all orders placed by the customer, calculated as 
+          coalesce(sum(total_price), 0) from orders. Used to determine customer value flags.
       - name: is_high_value
-        description: ""
+        description: >
+          Flag indicating a high-value customer (Y/N). Set to 'Y' when lifetime_value 
+          exceeds $3,000,000.
       - name: is_mid_value
-        description: ""
+        description: >
+          Flag indicating a mid-value customer (Y/N). Set to 'Y' when lifetime_value 
+          is between $1,000,000 and $2,999,999.
       - name: is_low_value
-        description: ""
+        description: >
+          Flag indicating a low-value customer (Y/N). Set to 'Y' when lifetime_value 
+          is between $0 and $999,999.
 

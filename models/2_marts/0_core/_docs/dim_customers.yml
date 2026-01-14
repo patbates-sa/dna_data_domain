@@ -27,7 +27,7 @@ models:
                 values: ["AFRICA", "MIDDLE EAST", "ASIA", "EUROPE", "AMERICA"]
       - name: name
         data_type: varchar(25)
-        description: Customer identifier
+        description: Full name of the customer
       - name: address
         data_type: varchar(40)
         description: Address of the customer

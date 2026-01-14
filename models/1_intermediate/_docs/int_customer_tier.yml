@@ -3,16 +3,23 @@
 
 models:
   - name: int_customer_tier
-    description: Puts customers into tiers (1-4)
+    description: >
+      Intermediate model that classifies customers into value tiers based on their 
+      lifetime purchase value. Calculates the sum of total_price from all orders 
+      and assigns customers to tiers 1-4 based on spending thresholds.
     columns:
       - name: customer_key
-        description: ""
+        description: Primary key of the model - unique identifier for each customer
         data_tests:
           - unique
       - name: lifetime_value
-        description: ""
+        description: >
+          Total cumulative value of all orders placed by the customer, calculated as 
+          sum(total_price) from orders. Used to determine customer tier classification.
       - name: tier_name
-        description: ""
+        description: >
+          Customer value tier classification based on lifetime_value thresholds:
+          tier1 (<=200k), tier2 (>2M), tier3 (1M-1.99M), tier4 (0-999k)
 
 unit_tests:
   - name: tiers_are_working

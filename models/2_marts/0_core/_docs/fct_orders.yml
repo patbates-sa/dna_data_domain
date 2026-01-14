@@ -25,7 +25,7 @@ models:
       - name: order_date
         description: Date of the order
       - name: order_time
-        description: ""
+        description: Timestamp indicating the time when the order was placed
       - name: status_code
         description: Status of the order
       - name: priority_code
