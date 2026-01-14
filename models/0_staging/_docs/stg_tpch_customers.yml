@@ -11,7 +11,7 @@ models:
           - unique
           - not_null
       - name: name
-        description: Customer identifier
+        description: Full name of the customer
       - name: address
         description: Address of the customer
       - name: nation_key

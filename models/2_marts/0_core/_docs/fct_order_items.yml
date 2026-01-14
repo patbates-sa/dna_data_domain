@@ -31,7 +31,7 @@ models:
       - name: order_item_status_code
         description: Status of the order item
       - name: is_return
-        description: ""
+        description: '{{ doc("is_return") }}'
       - name: line_number
         description: '{{ doc("line_number") }}'
       - name: ship_date

@@ -28,9 +28,9 @@
 {% docs discount_percentage %} percentage of the discount {% enddocs %}
 
 
-# the below are descriptions from stg_tpch_supppliers
+# the below are descriptions from stg_tpch_suppliers
 
-{% docs supplier_name %} id of the supplier {% enddocs %}
+{% docs supplier_name %} name of the supplier {% enddocs %}
 
 {% docs supplier_address %} address of the supplier {% enddocs %}
 
