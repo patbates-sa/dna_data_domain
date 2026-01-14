@@ -5,7 +5,7 @@ exposures:
   - name: active_orders
     type: dashboard
     maturity: high
-    url: https://fishtown.looker.com/dashboards/493
+    url: https://app.hex.tech/fishtown/app/Active-Orders-032AG0HzxErC4V5JmZOqCl/latest
     description: Displays exponential growth trends for active orders
     
     depends_on:
@@ -19,7 +19,7 @@ exposures:
   - name: business_pulse
     type: dashboard
     maturity: high
-    url: https://public.tableau.com/app/profile/mike.burke2608/viz/BDLDemo/BusinessPulse_1
+    url: https://app.hex.tech/fishtown/app/Business-Pulse-Dashboard-032AESUJJMbukC4iPlE51H/latest
     description: Business Pulse dashboard for insights on orders, used by anyone looking to understand order trends
     
     depends_on:

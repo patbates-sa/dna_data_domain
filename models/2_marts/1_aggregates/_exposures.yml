@@ -5,7 +5,7 @@ exposures:
   - name: returned_orders
     type: dashboard
     maturity: high
-    url: https://fishtown.looker.com/dashboards/606
+    url: https://app.hex.tech/fishtown/app/Returned-Orders-032AHM0QS6YL3m2PDFYhul/latest
     description: Tracks how return rate is trending over time
 
     depends_on:
