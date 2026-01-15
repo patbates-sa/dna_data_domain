@@ -20,3 +20,9 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
+
+# Model configurations
+models:
+  data_engineering:
+    2_marts:
+      +materialized: "{{ env_var('DBT_MATERIALIZATION') }}"
