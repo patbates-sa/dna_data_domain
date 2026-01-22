@@ -1,6 +1,12 @@
 {% macro centralize_test_failures(results) %}
   {# --add "{{ centralize_test_failures(results) }}" to an on-run-end: block in dbt_project.yml #}
   {# --run with dbt build --store-failures. #}
+  
+  {# Skip execution if results is empty or we're not in execute mode #}
+  {% if not execute or not results %}
+    {{ return('') }}
+  {% endif %}
+  
   {%- set test_results = [] -%}
   {%- for result in results -%}
     {%- if result.node.resource_type == 'test' and result.status != 'skipped' and (
