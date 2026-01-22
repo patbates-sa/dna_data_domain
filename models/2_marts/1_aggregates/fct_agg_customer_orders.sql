@@ -1,7 +1,7 @@
 {{
   config(
     materialized = 'table',
-    catalog_name = 'iceberg_horizon'
+    catalog_name = 'iceberg_horizon' if target.name == 'prod' else None
   )
 }}
 
