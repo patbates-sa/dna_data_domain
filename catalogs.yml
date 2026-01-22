@@ -1,0 +1,8 @@
+catalogs:
+  - name: iceberg_horizon
+    active_write_integration: snowflake_write
+    write_integrations:
+      - name: snowflake_write
+        external_volume: sa_demo_2_iceberg_ext_vol
+        table_format: iceberg
+        catalog_type: built_in

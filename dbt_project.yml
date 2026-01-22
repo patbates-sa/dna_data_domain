@@ -25,4 +25,4 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   data_engineering:
     2_marts:
-      +materialized: "{{ env_var('DBT_MATERIALIZATION') }}"
+      +materialized: "{{ env_var('DBT_MATERIALIZATION', 'view') }}"

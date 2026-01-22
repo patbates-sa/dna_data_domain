@@ -1,8 +1,3 @@
-{{ config(
-    tags=["finance"]
-) }}
-
-
 {% macro centralize_test_failures(results) %}
   {# --add "{{ centralize_test_failures(results) }}" to an on-run-end: block in dbt_project.yml #}
   {# --run with dbt build --store-failures. #}
