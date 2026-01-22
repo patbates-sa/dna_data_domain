@@ -1,4 +1,8 @@
 packages:
+- git: https://github.com/dbt-labs/sa_demo_shared_package_for_common_tests.git
+  name: acme_common
+  revision: 9bcf4484bd003933d575d2b39b62fb8b558d8003
+  __unrendered__: {}
 - package: godatadriven/dbt_date
   name: dbt_date
   version: 0.17.1
@@ -8,4 +12,4 @@ packages:
 - package: dbt-labs/dbt_utils
   name: dbt_utils
   version: 1.3.3
-sha1_hash: f3834f1c121b6d780385cb6159376083da3e6c0b
+sha1_hash: eb2b0499eed7676fc7b1c5a16c210a83f84a534c
