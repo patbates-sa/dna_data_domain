@@ -12,7 +12,7 @@ macros:
       Add the following to your `dbt_project.yml`:
       ```yaml
       on-run-end:
-        - "{{ centralize_test_failures(results) }}"
+        - centralize_test_failures(results)
       ```
 
       **Run with:**
