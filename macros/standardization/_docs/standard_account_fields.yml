@@ -20,7 +20,7 @@ macros:
       select
         order_id,
         customer_id,
-        {{ standard_account_fields() }}
+        standard_account_fields()
       from order_items
       ```
 

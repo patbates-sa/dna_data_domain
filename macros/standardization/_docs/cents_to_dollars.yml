@@ -10,8 +10,8 @@ macros:
       ```sql
       select
         id as payment_id,
-        {{ cents_to_dollars('amount') }} as amount_usd,
-        {{ cents_to_dollars('fee', precision=4) }} as fee_usd
+        cents_to_dollars('amount') as amount_usd,
+        cents_to_dollars('fee', precision=4) as fee_usd
       from payments
       ```
 

@@ -12,7 +12,7 @@ macros:
       The macro is called WITHOUT parentheses around the column, as it returns a 
       type cast suffix:
       ```sql
-      (line_item.extended_price / quantity){{ money() }} as base_price
+      (line_item.extended_price / quantity) [money()] as base_price
       ```
 
       This compiles to:
