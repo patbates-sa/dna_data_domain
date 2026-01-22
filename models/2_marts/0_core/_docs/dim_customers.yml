@@ -8,6 +8,11 @@ models:
         enforced: true
       group: data_team
       access: public
+      freshness:
+        build_after:
+          count: 4
+          period: hour
+          updates_on: all  # Only rebuild when ALL upstream dependencies have new data
     description: Customer dimensions table
     columns:
       - name: customer_key
