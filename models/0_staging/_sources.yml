@@ -6,8 +6,8 @@ sources:
 
     config:
       freshness:
-        warn_after: { count: 30, period: day }
-        error_after: { count: 60, period: day }
+        warn_after: { count: 180, period: day }
+        error_after: { count: 360, period: day }
     tables:
       # EXAMPLE 1: Source that ALWAYS triggers a rebuild
       # Using current_timestamp() as loaded_at_field means this source will always
@@ -17,7 +17,7 @@ sources:
         description: Main customer table
         config:
           freshness:
-            warn_after: { count: 30, period: day }
+            warn_after: { count: 180, period: day }
           loaded_at_field: current_timestamp()
         columns:
           - name: c_custkey
@@ -174,14 +174,14 @@ sources:
     schema: tpch_now
     config:
       freshness:
-        warn_after: { count: 30, period: day }
-        error_after: { count: 60, period: day }
+        warn_after: { count: 180, period: day }
+        error_after: { count: 360, period: day }
     tables:
       - name: orders
         description: Main order tracking table
         config:
           freshness:
-            warn_after: { count: 30, period: day }
+            warn_after: { count: 180, period: day }
             error_after: { count: 60, period: day }
           loaded_at_field: "CAST(o_orderdate AS TIMESTAMP)"
         columns:
@@ -218,7 +218,7 @@ sources:
         description: Main lineitem table
         config:
           freshness:
-            warn_after: { count: 30, period: day }
+            warn_after: { count: 180, period: day }
             error_after: { count: 60, period: day }
           loaded_at_field: "CAST(l_shipdate AS TIMESTAMP)"
         columns:
