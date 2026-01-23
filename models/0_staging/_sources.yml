@@ -1,12 +1,9 @@
-# This file defines the raw data sources from Snowflake's TPCH sample data
-# SAO (State-Aware Orchestration) configurations are included to optimize build behavior
-
 sources:
   - name: tpch
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
     database: raw
     schema: tpch_sf001
-    # Default freshness for static reference data - uses warehouse metadata
+
     config:
       freshness:
         warn_after: { count: 24, period: hour }
@@ -116,7 +113,7 @@ sources:
           - name: ps_comment
             description: '{{ doc("comment") }}'
 
-      # EXAMPLE 3: Source that ALWAYS triggers a rebuild
+      # EXAMPLE 1: Source that ALWAYS triggers a rebuild
       # Using current_timestamp() as loaded_at_field means this source will always
       # appear "fresh" and trigger downstream rebuilds on every job run.
       # Use this sparingly for sources that must always refresh downstream models.
@@ -181,7 +178,7 @@ sources:
         warn_after: { count: 6, period: hour }
         error_after: { count: 12, period: hour }
     tables:
-      # EXAMPLE 1: Source with proper freshness tracking
+      # EXAMPLE 2: Source with proper freshness tracking
       # Uses the actual timestamp column from the data (not a dynamic expression!)
       # Note: Using current_timestamp() would cause all tables to appear fresh on every run
       # To set a rebuild SLA, configure build_after on the downstream MODELS, not sources
@@ -222,7 +219,7 @@ sources:
             description: Numeric representation of the shipping priority, zero being the default
           - name: o_comment
             description: '{{ doc("comment") }}'
-      # EXAMPLE 2: Source with custom freshness query (requires 100+ new rows to trigger refresh)
+      # EXAMPLE 3: Source with custom freshness query (requires 100+ new rows to trigger refresh)
       # This prevents unnecessary rebuilds when only a few rows have trickled in
       - name: lineitem
         description: Main lineitem table
