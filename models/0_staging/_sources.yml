@@ -1,10 +1,16 @@
 # This file defines the raw data sources from Snowflake's TPCH sample data
+# SAO (State-Aware Orchestration) configurations are included to optimize build behavior
 
 sources:
   - name: tpch
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
     database: raw
     schema: tpch_sf001
+    # Default freshness for static reference data - uses warehouse metadata
+    config:
+      freshness:
+        warn_after: { count: 24, period: hour }
+        error_after: { count: 48, period: hour }
     tables:
       - name: customer
         description: Main customer table
@@ -110,8 +116,16 @@ sources:
           - name: ps_comment
             description: '{{ doc("comment") }}'
 
+      # EXAMPLE 3: Source that ALWAYS triggers a rebuild
+      # Using current_timestamp() as loaded_at_field means this source will always
+      # appear "fresh" and trigger downstream rebuilds on every job run.
+      # Use this sparingly for sources that must always refresh downstream models.
       - name: region
         description: Region mapping
+        config:
+          freshness:
+            warn_after: { count: 24, period: hour }
+          loaded_at_field: current_timestamp()
         columns:
           - name: r_regionkey
             description: 5 regions are populated
@@ -156,17 +170,33 @@ sources:
             description: Raw account balance
           - name: s_comment
             description: '{{ doc("comment") }}'
-    config:
-      freshness: # make this a warning as this is static data
-        warn_after: { count: 12, period: hour }
+
   - name: tpch_now
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
     database: raw
     schema: tpch_now
+    # Default freshness config for transactional data
+    config:
+      freshness:
+        warn_after: { count: 6, period: hour }
+        error_after: { count: 12, period: hour }
     tables:
+      # EXAMPLE 1: Source with rebuild SLA (build_after)
+      # This source will only trigger downstream rebuilds every 4 hours minimum,
+      # even if new data arrives more frequently
       - name: orders
         description: Main order tracking table
-
+        config:
+          freshness:
+            warn_after: { count: 6, period: hour }
+            error_after: { count: 12, period: hour }
+            # Rebuild SLA: only rebuild downstream models at most every 4 hours
+            build_after:
+              count: 4
+              period: hour
+          # Use the actual timestamp column from the data (not a dynamic expression!)
+          # Note: Using current_timestamp() would cause all tables to appear fresh on every run
+          loaded_at_field: o_orderdate
         columns:
           - name: o_orderkey
             description: SF*1,500,000 are sparsely populated
@@ -197,8 +227,24 @@ sources:
             description: Numeric representation of the shipping priority, zero being the default
           - name: o_comment
             description: '{{ doc("comment") }}'
+      # EXAMPLE 2: Source with custom freshness query (requires 100+ new rows to trigger refresh)
+      # This prevents unnecessary rebuilds when only a few rows have trickled in
       - name: lineitem
         description: Main lineitem table
+        config:
+          freshness:
+            warn_after: { count: 6, period: hour }
+            error_after: { count: 12, period: hour }
+          # Custom query: only return a timestamp if there are 100+ new rows in the last day
+          # If fewer than 100 rows, return NULL which means "not fresh enough to rebuild"
+          loaded_at_query: |
+            select
+              case
+                when count(*) >= 100 then max(l_shipdate)
+                else null
+              end as max_loaded_at
+            from {{ source }}
+            where l_shipdate >= current_date - interval '1 day'
         columns:
           - name: l_orderkey
             description: Foreign key to O_ORDERKEY
