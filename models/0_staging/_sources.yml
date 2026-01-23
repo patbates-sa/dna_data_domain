@@ -219,14 +219,24 @@ sources:
             description: Numeric representation of the shipping priority, zero being the default
           - name: o_comment
             description: '{{ doc("comment") }}'
-      # EXAMPLE 3: Source with freshness tracking using a timestamp column
+      # EXAMPLE 3: Source with custom freshness query (requires 100+ new rows to trigger refresh)
+      # This prevents unnecessary rebuilds when only a few rows have trickled in
       - name: lineitem
         description: Main lineitem table
         config:
           freshness:
             warn_after: { count: 6, period: hour }
             error_after: { count: 12, period: hour }
-          loaded_at_field: l_shipdate
+          # Custom query: only return a timestamp if there are 100+ new rows in the last day
+          # If fewer than 100 rows, return NULL which means "not fresh enough to rebuild"
+          loaded_at_query: |
+            select
+              case
+                when count(*) >= 100 then max(l_shipdate)
+                else null
+              end as max_loaded_at
+            from {% raw %}{{ source }}{% endraw %}
+            where l_shipdate >= current_date - interval '1 day'
         columns:
           - name: l_orderkey
             description: Foreign key to O_ORDERKEY
