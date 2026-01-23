@@ -1,7 +1,14 @@
 {{
     config(
-        materialized = 'table',
-        tags=['finance']
+        materialized='table',
+        tags=['finance'],
+        freshness={
+            "build_after": {
+                "count": 8,
+                "period": "hour",
+                "updates_on": "all"
+            }
+        }
     )
 }}
 
