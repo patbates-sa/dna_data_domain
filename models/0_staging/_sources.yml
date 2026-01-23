@@ -181,21 +181,16 @@ sources:
         warn_after: { count: 6, period: hour }
         error_after: { count: 12, period: hour }
     tables:
-      # EXAMPLE 1: Source with rebuild SLA (build_after)
-      # This source will only trigger downstream rebuilds every 4 hours minimum,
-      # even if new data arrives more frequently
+      # EXAMPLE 1: Source with proper freshness tracking
+      # Uses the actual timestamp column from the data (not a dynamic expression!)
+      # Note: Using current_timestamp() would cause all tables to appear fresh on every run
+      # To set a rebuild SLA, configure build_after on the downstream MODELS, not sources
       - name: orders
         description: Main order tracking table
         config:
           freshness:
             warn_after: { count: 6, period: hour }
             error_after: { count: 12, period: hour }
-            # Rebuild SLA: only rebuild downstream models at most every 4 hours
-            build_after:
-              count: 4
-              period: hour
-          # Use the actual timestamp column from the data (not a dynamic expression!)
-          # Note: Using current_timestamp() would cause all tables to appear fresh on every run
           loaded_at_field: o_orderdate
         columns:
           - name: o_orderkey

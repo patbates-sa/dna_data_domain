@@ -1,9 +1,11 @@
+{#
+  SAO config: Only rebuild when ALL upstream models have new data (not just any)
+  This reduces unnecessary rebuilds and compute costs
+#}
 {{
     config(
-        materialized = 'table',
+        materialized='table',
         tags=['finance'],
-        -- SAO config: Only rebuild when ALL upstream models have new data (not just any)
-        -- This reduces unnecessary rebuilds and compute costs
         freshness={
             "build_after": {
                 "count": 1,
