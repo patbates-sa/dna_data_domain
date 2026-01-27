@@ -1,5 +1,6 @@
 # Documentation for fct_order_items model
 # Order items fact table
+# Includes semantic layer definitions for item-level analysis
 
 models:
   - name: fct_order_items
@@ -11,35 +12,62 @@ models:
             compare_model: ref("fct_orders")
             compare_expression: sum(net_item_sales_amount)
             group_by: [order_key]
-    description: Order items fact table
+    description: >
+      Line items for an order. An order_key can be represented multiple times in this table,
+      with each row representing a single line item. This model also includes a semantic model
+      that enables granular analysis of sales, expenses, and supplier metrics at the item level.
     columns:
       - name: order_item_key
         description: '{{ doc("order_item_key") }}'
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: order_item
       - name: order_key
-        description: Foreign key for orders
+        description: A unique identifier for the order associated with the item
+        entity:
+          type: foreign
+          name: customer_order
       - name: order_date
-        description: Date of the order
+        description: The date when the order was placed
+        dimension:
+          type: time
+        granularity: day
       - name: customer_key
-        description: Foreign key for customers
+        description: A unique identifier for the customer who placed the order
+        entity:
+          type: foreign
+          name: customer
       - name: part_key
         description: Foreign key for parts
       - name: supplier_key
-        description: Foreign key for suppliers
+        description: A unique identifier for the supplier of the order item
+        entity:
+          type: foreign
+          name: supplier
       - name: order_item_status_code
-        description: Status of the order item
+        description: The status code representing the current state of the order item
       - name: is_return
         description: '{{ doc("is_return") }}'
       - name: line_number
         description: '{{ doc("line_number") }}'
       - name: ship_date
-        description: '{{ doc("ship_date") }}'
+        description: The date when the order item was shipped, used for delivery timeline analysis
+        dimension:
+          type: time
+        granularity: day
       - name: commit_date
-        description: '{{ doc("commit_date") }}'
+        description: The date when the order item was committed for shipment, used for fulfillment timeline analysis
+        dimension:
+          type: time
+        granularity: day
       - name: receipt_date
-        description: '{{ doc("receipt_date") }}'
+        description: The date when the order item was received by the customer, used for delivery timeline analysis
+        dimension:
+          type: time
+        granularity: day
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
       - name: supplier_cost
@@ -53,13 +81,13 @@ models:
       - name: tax_rate
         description: '{{ doc("tax_rate") }}'
       - name: nation_key
-        description: Nation key
+        description: A unique identifier for the nation associated with the order item
         data_tests:
           - not_null
       - name: order_item_count
-        description: Count of order items
+        description: The count of items in the order
       - name: quantity
-        description: Total units
+        description: The quantity of the order item
       - name: gross_item_sales_amount
         description: '{{ doc("gross_item_sales_amount") }}'
       - name: discounted_item_sales_amount
@@ -73,3 +101,52 @@ models:
     config:
       group: data_team
       access: public
+    semantic_model:
+      enabled: true
+      name: order_items
+    agg_time_dimension: order_date
+    metrics:
+      # Simple metrics
+      - name: total_expense
+        description: The total expense for the business, aggregated from supplier costs
+        type: simple
+        label: Total Expenses
+        agg: sum
+        expr: supplier_cost
+      - name: total_supplier_revenue
+        description: The total net revenue by supplier after discounts and taxes
+        type: simple
+        label: Total Supplier Revenue
+        agg: sum
+        expr: net_item_sales_amount
+      - name: total_supplier_gross_revenue
+        description: The total gross revenue by supplier before discounts and taxes
+        type: simple
+        label: Total Supplier Gross Revenue
+        agg: sum
+        expr: gross_item_sales_amount
+      - name: total_items_sold
+        description: The total number of items sold across all orders
+        type: simple
+        label: Total Items Sold
+        agg: sum
+        expr: quantity
+      - name: total_gross_sales
+        description: The total gross sales amount before discounts and taxes
+        type: simple
+        label: Total Gross Sales
+        agg: sum
+        expr: gross_item_sales_amount
+      - name: average_gross_sales
+        description: The average gross sales amount per order item
+        type: simple
+        label: Average Gross Sales
+        agg: average
+        expr: gross_item_sales_amount
+      # Derived metrics
+      - name: average_items_per_sale
+        description: The average number of items per sale, calculated as total items sold divided by total gross sales
+        type: ratio
+        label: Average Items per Sale
+        numerator: total_items_sold
+        denominator: total_gross_sales
