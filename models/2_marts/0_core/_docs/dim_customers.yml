@@ -77,29 +77,6 @@ models:
       - name: is_low_value
         data_type: varchar(1)
         description: Low revenue account flag
-    semantic_model:
-      enabled: true
-      name: customers
-    derived_semantics:
-      entities: []
-      dimensions:
-        # This dimension could have been a statically calculated column in the model
-        # That way, it would write the dimensions statically at model build time, making changes expensive.
-        #
-        # However, as a derived dimension, it builds upon the existing account_balance dimension,
-        # and applies a dynamic calculation at query time.
-        - name: customer_balance_segment
-          description: >
-            The segment of the customer's account balance.
-            This derived dimension is used to segment customers by account balance.
-          type: categorical
-          expr: |
-            case
-              when account_balance < 0 then 'Bad Debt'
-              when account_balance < 2500 then 'Low'
-              when account_balance < 7500 then 'Medium'
-              else 'High'
-            end
     versions:
       - v: 1
         columns:
@@ -110,4 +87,27 @@ models:
         columns:
           - include: all
             exclude: [tier_name]
+        semantic_model:
+          enabled: true
+          name: customers
+        derived_semantics:
+          entities: []
+          dimensions:
+            # This dimension could have been a statically calculated column in the model
+            # That way, it would write the dimensions statically at model build time, making changes expensive.
+            #
+            # However, as a derived dimension, it builds upon the existing account_balance dimension,
+            # and applies a dynamic calculation at query time.
+            - name: customer_balance_segment
+              description: >
+                The segment of the customer's account balance.
+                This derived dimension is used to segment customers by account balance.
+              type: categorical
+              expr: |
+                case
+                  when account_balance < 0 then 'Bad Debt'
+                  when account_balance < 2500 then 'Low'
+                  when account_balance < 7500 then 'Medium'
+                  else 'High'
+                end
     latest_version: 2
