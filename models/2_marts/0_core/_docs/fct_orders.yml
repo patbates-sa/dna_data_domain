@@ -1,20 +1,27 @@
 # Documentation for fct_orders model
 # Orders fact table
+# Includes semantic layer definitions for order-level analysis
 
 models:
   - name: fct_orders
-    description: Orders fact table
+    description: >
+      Order fact table at the order level. This model also includes a semantic model that
+      contains one row per order and includes the order key, enabling analysis of order-level
+      metrics such as total revenue and customer counts.
     config:
       group: data_team
       access: public
     columns:
       - name: order_key
-        description: Primary key of the model
+        description: A unique identifier for each order
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: customer_order
       - name: customer_key
-        description: Foreign key for customers
+        description: A unique identifier for the customer who placed the order
         data_tests:
           - relationships:
               config:
@@ -22,22 +29,40 @@ models:
               arguments:
                 to: ref('dim_customers')
                 field: customer_key
+        entity:
+          type: foreign
+          name: customer
       - name: order_date
-        description: Date of the order
+        description: The date on which the order was placed, used for daily-grain analysis
+        dimension:
+          type: time
+        granularity: day
       - name: order_time
-        description: Timestamp indicating the time when the order was placed
+        description: The timestamp indicating the exact time the order was placed, used for hourly-grain analysis
+        dimension:
+          type: time
+        granularity: hour
       - name: status_code
-        description: Status of the order
+        description: The current status of the order, represented by a code
+        dimension:
+          type: categorical
+          name: order_status_code
       - name: priority_code
-        description: Code associated with the order
+        description: A code indicating the priority level of the order
+        dimension:
+          type: categorical
+          name: order_priority_code
       - name: clerk_name
-        description: Identifier of the clerk
+        description: The name of the clerk who processed the order
+        dimension:
+          type: categorical
+          name: clerk_on_order
       - name: ship_priority
-        description: Numeric representation of the shipping priority, zero being the default
+        description: The priority level for shipping the order
       - name: order_count
-        description: Number of orders (includes returns)
+        description: The total number of items in the order
       - name: return_count
-        description: Number of line items with the return flag in this order
+        description: The number of items returned from the order
       - name: gross_item_sales_amount
         description: '{{ doc("gross_item_sales_amount") }}'
       - name: item_discount_amount
@@ -46,3 +71,44 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
+    semantic_model:
+      enabled: true
+      name: orders
+    agg_time_dimension: order_date
+    metrics:
+      # Simple metrics
+      - name: total_revenue
+        description: The total revenue for the business, aggregated from gross item sales amounts
+        type: simple
+        label: Total Revenue
+        agg: sum
+        expr: gross_item_sales_amount
+      - name: total_customers
+        description: The total count of unique customers for the business
+        type: simple
+        label: Total Customers
+        agg: count_distinct
+        expr: customer_key
+      # Derived metrics
+      - name: average_revenue_per_customer
+        description: The average revenue per customer, calculated as total revenue divided by total customers
+        type: ratio
+        label: Average Revenue per Customer
+        numerator: total_revenue
+        denominator: total_customers
+
+# Derived metrics from multiple models
+metrics:
+  - name: total_profit
+    description: >
+      The total profit for the business, calculated as total revenue minus total expense.
+      This derived metric provides the core profitability measure for financial analysis.
+      Defaults to day-grain analysis, aligning total_revenue with total_expense from the order_items semantic model.
+    type: derived
+    label: Total Profit
+    expr: revenue - expense
+    input_metrics:
+      - name: total_revenue
+        alias: revenue
+      - name: total_expense # This metric is defined in the order_items semantic model
+        alias: expense

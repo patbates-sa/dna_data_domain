@@ -1,27 +1,63 @@
 # Documentation for dim_suppliers model
 # Suppliers dimensions table
+# Includes semantic layer definitions for supplier analysis
 
 models:
   - name: dim_suppliers
-    description: Suppliers dimensions table
+    description: >
+      Supplier dimension table containing supplier details and their geographical information.
+      This model also includes a semantic model that enables analysis of supplier performance
+      by nation, region, and account balance segment.
     config:
       group: data_team
       access: public
     columns:
       - name: supplier_key
-        description: Primary key of the model
+        description: A unique identifier for each supplier
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: supplier
       - name: supplier_name
         description: '{{ doc("supplier_name") }}'
       - name: supplier_address
         description: '{{ doc("supplier_address") }}'
       - name: nation
-        description: Nation name
+        description: The nation where the supplier is located
+        dimension:
+          type: categorical
+          name: supplier_nation
       - name: region
-        description: Region name
+        description: The region where the supplier operates
+        dimension:
+          type: categorical
+          name: supplier_region
       - name: phone_number
         description: '{{ doc("phone_number") }}'
       - name: account_balance
         description: '{{ doc("account_balance") }}'
+    semantic_model:
+      enabled: true
+      name: suppliers
+    derived_semantics:
+      entities: []
+      dimensions:
+        # This dimension could have been a statically calculated column in the model
+        # That way, it would write the dimensions statically at model build time, making changes expensive.
+        #
+        # However, as a derived dimension, it builds upon the existing account_balance dimension,
+        # and applies a dynamic calculation at query time.
+        - name: supplier_account_balance
+          description: >
+            The current account balance with the supplier.
+            This derived dimension is used to segment suppliers by account balance.
+          type: categorical
+          expr: |
+            case
+              when account_balance < 0 then 'Negative Balance'
+              when account_balance < 5000 then 'Low'
+              when account_balance < 15000 then 'Medium'
+              else 'High'
+            end

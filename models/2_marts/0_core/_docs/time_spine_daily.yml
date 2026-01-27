@@ -1,0 +1,16 @@
+# Documentation for time_spine_daily model
+# Daily time spine table for MetricFlow
+
+models:
+  - name: time_spine_daily
+    description: >
+      A time spine table with one row per day, used by MetricFlow for time-based
+      metric calculations and joins. The date range spans from 5 years in the past
+      to 30 days into the future from the current date, providing coverage for
+      historical analysis and near-term forecasting.
+    time_spine:
+      standard_granularity_column: date_day
+    columns:
+      - name: date_day
+        description: The base date column for daily granularity, used as the standard time dimension for metric calculations
+        granularity: day

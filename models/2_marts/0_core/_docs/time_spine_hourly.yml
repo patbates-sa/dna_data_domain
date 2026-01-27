@@ -1,0 +1,16 @@
+# Documentation for time_spine_hourly model
+# Hourly time spine table for MetricFlow
+
+models:
+  - name: time_spine_hourly
+    description: >
+      An hourly time spine table with one row per hour, used by MetricFlow for
+      hour-level metric calculations and joins. The date range spans from 5 years
+      in the past to 30 days into the future from the current date, providing
+      coverage for recent trends and near-term forecasting.
+    time_spine:
+      standard_granularity_column: date_hour
+    columns:
+      - name: date_hour
+        description: The base timestamp column for hourly granularity, used as the standard time dimension for metric calculations
+        granularity: hour
