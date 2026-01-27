@@ -1,0 +1,67 @@
+name: Trigger demo slim CI job
+
+on:
+  schedule:
+    - cron: "0 2 * * *"  # Daily at 2 AM UTC (9 PM ET / 6 PM PT)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  trigger-slim-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete previous dbt Cloud CI Report comments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const prNumber = Number(process.env.PR_NUMBER);
+            
+            if (!prNumber || Number.isNaN(prNumber)) {
+              throw new Error("PR_NUMBER must be set to the PR number.");
+            }
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number: prNumber, per_page: 100 }
+            );
+
+            // Filter for dbt-cloud bot comments containing "dbt Cloud CI Report"
+            const toDelete = comments.filter(c => {
+              const isBot = c.user && (c.user.login === "dbt-cloud" || c.user.login === "dbt-cloud[bot]");
+              const hasReportText = c.body && c.body.includes("dbt Cloud CI Report");
+              return isBot && hasReportText;
+            });
+
+            core.info(`Found ${comments.length} total comments; deleting ${toDelete.length} dbt Cloud CI Report comments...`);
+
+            for (const c of toDelete) {
+              await github.rest.issues.deleteComment({ owner, repo, comment_id: c.id });
+              core.info(`Deleted comment id=${c.id} from ${c.created_at}`);
+            }
+        env:
+          PR_NUMBER: ${{ vars.PR_ID }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Trigger slim CI job in dbt Cloud
+        env:
+          DBT_SERVICE_TOKEN: ${{ secrets.DBT_SERVICE_TOKEN }}
+          DBT_ACCOUNT_ID: ${{ vars.DBT_ACCOUNT_ID }}
+          DBT_JOB_ID: ${{ vars.DBT_JOB_ID }}
+          PR_ID: ${{ vars.PR_ID }}
+          GIT_SHA: ${{ vars.GIT_SHA }}
+          DBT_BASE_URL: ${{ vars.DBT_BASE_URL }}
+        run: python scripts/trigger_slim_ci_job.py
