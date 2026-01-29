@@ -5,8 +5,8 @@ dbt-cloud:
     project-id: 70437463662253
     account-host: "tr995.us1.dbt.com"
 
-# This setting configures which "profile" dbt uses for this project.
-profile: 'analytics'
+# This profile is only used by ./dbt/profiles.yml when running locally, not relevant for cloud runs.
+profile: 'tr995_us1_70437463662253'
 
 # These configurations specify where dbt should look for different types of files.
 model-paths: ["models"]
