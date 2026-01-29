@@ -26,7 +26,7 @@ unit_tests:
     description: Check if the logic for tiering is working correctly
     model: int_customer_tier
     given:
-      - input: ref('stg_tpch_customers')
+      - input: ref('stg_customers')
         format: dict
         rows:
           - {customer_key: 629}
@@ -34,7 +34,7 @@ unit_tests:
           - {customer_key: 1}
           - {customer_key: 26}
 
-      - input: ref('stg_tpch_orders')
+      - input: ref('stg_orders')
         format: dict
         rows:
           - {customer_key: 629, total_price: 163443}

@@ -34,7 +34,7 @@ sources:
           - name: c_address
             description: Address of the customer
           - name: c_nationkey
-            description: Foreign key to stg_tpch_nations
+            description: Foreign key to stg_nations
           - name: c_phone
             description: Phone number of the customer
           - name: c_acctbal

@@ -3,7 +3,7 @@
 # Use these definitions with the {{ doc("definition_name") }} syntax in yml files
 
 
-# the below are descriptions from stg_tpch_line_items
+# the below are descriptions from stg_line_items
 
 {% docs order_item_key %} surrogate key for the model -- combo of order_key + line_number {% enddocs %}
 
@@ -28,7 +28,7 @@
 {% docs discount_percentage %} percentage of the discount {% enddocs %}
 
 
-# the below are descriptions from stg_tpch_suppliers
+# the below are descriptions from stg_suppliers
 
 {% docs supplier_name %} name of the supplier {% enddocs %}
 
@@ -38,11 +38,11 @@
 
 {% docs account_balance %} raw account balance {% enddocs %}
 
-# the below are descriptions from stg_tpch_parts
+# the below are descriptions from stg_parts
 
 {% docs retail_price %} raw retail price {% enddocs %}
 
-# the below are descriptions from stg_tpch_part_suppliers
+# the below are descriptions from stg_part_suppliers
 
 {% docs available_quantity %} raw available quantity {% enddocs %}
 

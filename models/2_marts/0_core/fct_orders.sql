@@ -14,7 +14,7 @@
 
 with orders as (
     
-    select * from {{ ref('stg_tpch_orders') }} 
+    select * from {{ ref('stg_orders') }} 
 
 ),
 order_item as (

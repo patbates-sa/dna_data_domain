@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_regions model
+# Documentation for stg_regions model
 # Staging layer for regions data
 
 models:
-  - name: stg_tpch_regions
+  - name: stg_regions
     description: Staging layer for regions data
     columns:
       - name: region_key

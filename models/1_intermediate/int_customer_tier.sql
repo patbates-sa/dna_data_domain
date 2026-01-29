@@ -5,11 +5,11 @@
 }}
 
 with customer as (
-    select * from {{ ref('stg_tpch_customers') }}
+    select * from {{ ref('stg_customers') }}
 ),
 
 orders as (
-    select * from {{ ref('stg_tpch_orders') }}
+    select * from {{ ref('stg_orders') }}
 ),
 final as (
     select

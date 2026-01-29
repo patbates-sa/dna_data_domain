@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_nations model
+# Documentation for stg_nations model
 # Staging layer for nations data
 
 models:
-  - name: stg_tpch_nations
+  - name: stg_nations
     description: Staging layer for nations data
     columns:
       - name: nation_key
@@ -13,6 +13,6 @@ models:
       - name: name
         description: Nation name
       - name: region_key
-        description: Foreign key to stg_tpch_regions
+        description: Foreign key to stg_regions
       - name: comment
         description: Additional commentary

@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_suppliers model
+# Documentation for stg_suppliers model
 # Staging layer for suppliers data
 
 models:
-  - name: stg_tpch_suppliers
+  - name: stg_suppliers
     description: Staging layer for suppliers data
     columns:
       - name: supplier_key
@@ -15,7 +15,7 @@ models:
       - name: supplier_address
         description: '{{ doc("supplier_address") }}'
       - name: nation_key
-        description: Foreign key to stg_tpch_nations
+        description: Foreign key to stg_nations
       - name: phone_number
         description: '{{ doc("phone_number") }}'
       - name: account_balance
