@@ -10,8 +10,10 @@
 #   - main, UAT, develop
 #   - feat/*, fix/*, hotfix/*, release/*
 #
-# To add additional protected patterns for this repo, set extra_protected_patterns
-# in the 'with' block below.
+# Additional protected patterns for this repo:
+#   - advanced-ci-demo-pr (demo branch for advanced CI features)
+#
+# To override the age threshold, use days_old when triggering manually.
 # =============================================================================
 
 name: Branch Cleanup
@@ -22,6 +24,10 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
     inputs:
+      days_old:
+        description: "Delete branches older than this many days (default: 7)"
+        type: number
+        default: 7
       dry_run:
         description: "Dry run (only log, do not delete)"
         type: boolean
@@ -34,4 +40,6 @@ jobs:
       pull-requests: write
     uses: dbt-labs/sa-demo-terraform/.github/workflows/branch-cleanup.yml@main
     with:
+      days_old: ${{ github.event.inputs.days_old && fromJSON(github.event.inputs.days_old) || 7 }}
+      extra_protected_patterns: "advanced-ci-demo-pr"
       dry_run: ${{ inputs.dry_run || false }}
