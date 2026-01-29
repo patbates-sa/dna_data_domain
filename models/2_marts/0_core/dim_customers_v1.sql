@@ -7,16 +7,16 @@
 
 with customer as (
 
-    select * from {{ ref('stg_tpch_customers') }}
+    select * from {{ ref('stg_customers') }}
 
 ),
 nation as (
 
-    select * from {{ ref('stg_tpch_nations') }}
+    select * from {{ ref('stg_nations') }}
 ),
 region as (
 
-    select * from {{ ref('stg_tpch_regions') }}
+    select * from {{ ref('stg_regions') }}
 
 ),
 customer_tier as (

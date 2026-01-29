@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_parts model
+# Documentation for stg_parts model
 # Staging layer for parts data
 
 models:
-  - name: stg_tpch_parts
+  - name: stg_parts
     description: Staging layer for parts data
     columns:
       - name: part_key

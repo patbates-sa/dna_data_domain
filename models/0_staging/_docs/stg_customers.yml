@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_customers model
+# Documentation for stg_customers model
 # Staging layer for customers data
 
 models:
-  - name: stg_tpch_customers
+  - name: stg_customers
     description: Staging layer for customers data
     columns:
       - name: customer_key
@@ -15,7 +15,7 @@ models:
       - name: address
         description: Address of the customer
       - name: nation_key
-        description: Foreign key to stg_tpch_nations
+        description: Foreign key to stg_nations
       - name: phone_number
         description: Phone number of the customer
       - name: account_balance

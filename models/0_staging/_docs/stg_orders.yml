@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_orders model
+# Documentation for stg_orders model
 # Staging layer for orders data
 
 models:
-  - name: stg_tpch_orders
+  - name: stg_orders
     description: Staging layer for orders data
     config:
       freshness:
@@ -16,7 +16,7 @@ models:
           - unique
           - not_null
       - name: customer_key
-        description: Foreign key to stg_tpch_customers
+        description: Foreign key to stg_customers
       - name: status_code
         description: Status of the order
       - name: total_price

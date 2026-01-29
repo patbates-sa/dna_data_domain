@@ -5,13 +5,13 @@
 
 with orders as (
     
-    select * from {{ ref('stg_tpch_orders') }}
+    select * from {{ ref('stg_orders') }}
 
 ),
 
 line_item as (
 
-    select * from {{ ref('stg_tpch_line_items') }}
+    select * from {{ ref('stg_line_items') }}
 
 )
 select 

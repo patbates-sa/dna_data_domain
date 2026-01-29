@@ -5,19 +5,19 @@
 
 with part as (
     
-    select * from {{ ref('stg_tpch_parts') }}
+    select * from {{ ref('stg_parts') }}
 
 ),
 
 supplier as (
 
-    select * from {{ ref('stg_tpch_suppliers') }}
+    select * from {{ ref('stg_suppliers') }}
 
 ),
 
 part_supplier as (
 
-    select * from {{ ref('stg_tpch_part_suppliers') }}
+    select * from {{ ref('stg_part_suppliers') }}
 
 ),
 

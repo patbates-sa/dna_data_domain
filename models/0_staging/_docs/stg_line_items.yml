@@ -1,8 +1,8 @@
-# Documentation for stg_tpch_line_items model
+# Documentation for stg_line_items model
 # Staging layer for line items data
 
 models:
-  - name: stg_tpch_line_items
+  - name: stg_line_items
     description: Staging layer for line items data
     columns:
       - name: order_item_key
@@ -11,11 +11,11 @@ models:
           - unique
           - not_null
       - name: order_key
-        description: Foreign key to stg_tpch_orders
+        description: Foreign key to stg_orders
       - name: part_key
-        description: Foreign key to stg_tpch_part_suppliers
+        description: Foreign key to stg_part_suppliers
       - name: supplier_key
-        description: Foreign key to stg_tpch_suppliers
+        description: Foreign key to stg_suppliers
       - name: line_number
         description: '{{ doc("line_number") }}'
       - name: quantity
