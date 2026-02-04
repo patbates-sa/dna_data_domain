@@ -24,6 +24,7 @@ models:
         description: A unique identifier for the customer who placed the order
         data_tests:
           - relationships:
+              name: fct_orders_customer_key_refs_dim_customers
               config:
                 severity: error
               arguments:

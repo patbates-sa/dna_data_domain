@@ -62,6 +62,7 @@ sources:
             description: Foreign key to R_REGIONKEY
             data_tests:
               - relationships:
+                  name: source_tpch_nation_regionkey_refs_region
                   arguments:
                     to: source('tpch', 'region')
                     field: r_regionkey
@@ -104,6 +105,7 @@ sources:
             description: Foreign key to P_PARTKEY
             data_tests:
               - relationships:
+                  name: source_tpch_partsupp_partkey_refs_part
                   arguments:
                     to: source('tpch', 'part')
                     field: p_partkey
@@ -111,6 +113,7 @@ sources:
             description: Foreign key to S_SUPPKEY
             data_tests:
               - relationships:
+                  name: source_tpch_partsupp_suppkey_refs_supplier
                   arguments:
                     to: source('tpch', 'supplier')
                     field: s_suppkey
@@ -158,6 +161,7 @@ sources:
             description: Foreign key to N_NATIONKEY
             data_tests:
               - relationships:
+                  name: source_tpch_supplier_nationkey_refs_nation
                   arguments:
                     to: source('tpch', 'nation')
                     field: n_nationkey
@@ -195,6 +199,7 @@ sources:
             description: Foreign key to C_CUSTKEY
             data_tests:
               - relationships:
+                  name: source_tpch_now_orders_custkey_refs_customer
                   arguments:
                     to: source('tpch', 'customer')
                     field: c_custkey
@@ -226,6 +231,7 @@ sources:
             description: Foreign key to O_ORDERKEY
             data_tests:
               - relationships:
+                  name: source_tpch_now_lineitem_orderkey_refs_orders
                   arguments:
                     to: source('tpch_now', 'orders')
                     field: o_orderkey
@@ -233,6 +239,7 @@ sources:
             description: Foreign key to P_PARTKEY, first part of the compound foreign key to (PS_PARTKEY, PS_SUPPKEY) with L_SUPPKEY
             data_tests:
               - relationships:
+                  name: source_tpch_now_lineitem_partkey_refs_part
                   arguments:
                     to: source('tpch', 'part')
                     field: p_partkey
@@ -240,6 +247,7 @@ sources:
             description: Foreign key to S_SUPPKEY, second part of the compound foreign key to (PS_PARTKEY, PS_SUPPKEY) with L_PARTKEY
             data_tests:
               - relationships:
+                  name: source_tpch_now_lineitem_suppkey_refs_supplier
                   arguments:
                     to: source('tpch', 'supplier')
                     field: s_suppkey
