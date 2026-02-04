@@ -1,8 +1,9 @@
 {{
-    config(
-        materialized = 'table',
-        tags = ['finance']
-    )
+  config(
+    materialized = 'table',
+    tags = ['finance'],
+    catalog_name = 'iceberg_horizon' if target.name == 'prod' else None
+  )
 }}
 
 with order_item as (
