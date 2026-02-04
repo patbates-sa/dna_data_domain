@@ -25,6 +25,7 @@ models:
         description: Total number of distinct orders containing items from this supplier
         data_tests:
           - dbt_expectations.expect_column_values_to_be_between:
+              name: fct_agg_supplier_orders_total_orders_non_negative
               arguments:
                 min_value: 0
           - dbt_expectations.expect_column_values_to_be_between:

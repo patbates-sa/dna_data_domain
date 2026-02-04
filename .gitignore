@@ -5,3 +5,6 @@ dbt_packages/
 logs/
 dbt_internal_packages/
 .cursor/
+
+# Credentials - never commit
+profiles.yml

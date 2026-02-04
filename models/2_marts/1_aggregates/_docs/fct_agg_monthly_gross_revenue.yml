@@ -16,5 +16,6 @@ models:
         description: Sum of gross item sales amount for all orders in the month
         data_tests:
           - dbt_expectations.expect_column_values_to_be_between:
+              name: fct_agg_monthly_gross_revenue_non_negative
               arguments:
                 min_value: 0
