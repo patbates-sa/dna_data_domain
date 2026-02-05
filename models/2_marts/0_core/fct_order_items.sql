@@ -2,7 +2,7 @@
   config(
     materialized = 'table',
     tags = ['finance'],
-    catalog_name = 'iceberg_horizon' if target.name == 'prod' else None
+    catalog_name = 'iceberg_uc' if target.name == 'prod' else None
   )
 }}
 

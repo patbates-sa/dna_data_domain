@@ -1,8 +1,9 @@
 catalogs:
-  - name: iceberg_horizon
-    active_write_integration: snowflake_write
+  - name: iceberg_uc
+    active_write_integration: snowflake_uc_write
     write_integrations:
-      - name: snowflake_write
-        external_volume: sa_demo_2_iceberg_ext_vol
+      - name: snowflake_uc_write
         table_format: iceberg
-        catalog_type: built_in
+        catalog_type: iceberg_rest
+        adapter_properties:
+          catalog_linked_database: data_science_iceberg_link
