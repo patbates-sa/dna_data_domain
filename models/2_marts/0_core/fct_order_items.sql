@@ -1,8 +1,7 @@
 {{
   config(
     materialized = 'table',
-    tags = ['finance'],
-    catalog_name = 'iceberg_uc' if target.name == 'prod' else None
+    tags = ['finance']
   )
 }}
 
