@@ -1,6 +1,6 @@
 {{
     config(
-        enabled=true,
+        enabled=var('run_designed_to_fail', false),
         severity='error',
         tags=['designed_to_fail']
     )

@@ -9,6 +9,7 @@ models:
       costs, and gross margin.
     config:
       tags: ['designed_to_fail']
+      enabled: "{{ var('run_designed_to_fail', false) }}"
     columns:
       - name: supplier_key
         description: Unique identifier for the supplier
@@ -34,6 +35,7 @@ models:
                 severity: error
                 store_failures: true
                 tags: ['designed_to_fail']
+                enabled: "{{ var('run_designed_to_fail', false) }}"
               arguments:
                 max_value: 650
       - name: total_order_items

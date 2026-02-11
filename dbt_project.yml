@@ -16,6 +16,16 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
+# ----------------------------------
+# Project variables
+# ----------------------------------
+vars:
+  # Controls whether models and tests tagged 'designed_to_fail' are enabled.
+  # These resources are intentionally built to fail for demo / testing purposes.
+  # They are disabled by default so they don't break normal CI/CD runs.
+  # Override at invocation time with: dbt build --vars '{run_designed_to_fail: true}'
+  run_designed_to_fail: false
+
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
