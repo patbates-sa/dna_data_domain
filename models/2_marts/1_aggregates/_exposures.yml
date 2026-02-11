@@ -5,6 +5,9 @@ exposures:
   - name: returned_orders
     type: dashboard
     maturity: high
+    config:
+      enabled: "{{ var('run_designed_to_fail', false) }}"
+      tags: ['designed_to_fail']
     url: https://app.hex.tech/fishtown/app/Returned-Orders-032AHM0QS6YL3m2PDFYhul/latest
     description: Tracks how return rate is trending over time
 

@@ -8,6 +8,7 @@ models:
       returned order items and calculates the return rate as a percentage of total orders.
     config:
       tags: ['designed_to_fail']
+      enabled: "{{ var('run_designed_to_fail', false) }}"
     columns:
       - name: order_month
         description: The first day of the month for the aggregated return data
