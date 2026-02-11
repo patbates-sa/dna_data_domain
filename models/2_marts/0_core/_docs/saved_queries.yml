@@ -1,0 +1,26 @@
+# Saved queries for the semantic layer
+# These provide pre-defined metric queries for downstream consumption and exports
+
+saved_queries:
+  - name: monthly_revenue_summary
+    description: >
+      Monthly summary of key revenue metrics including total revenue, customer count,
+      and average revenue per customer. This saved query powers an export table
+      for downstream consumption by the analytics team.
+    label: Monthly Revenue Summary
+    query_params:
+      metrics:
+        - total_revenue
+        - total_customers
+        - average_revenue_per_customer
+      group_by:
+        - TimeDimension('metric_time', 'MONTH')
+        - Dimension('customer_order__order_status_code')
+      where:
+        - "{{ TimeDimension('metric_time', 'MONTH') }} >= '2024-01-01'"
+    exports:
+      - name: monthly_revenue_summary_export
+        config:
+          export_as: table
+          schema: semantic_layer
+          alias: monthly_revenue_summary
