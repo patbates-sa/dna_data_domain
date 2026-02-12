@@ -1,0 +1,8 @@
+# GitHub Issue Template Chooser Configuration
+# -------------------------------------------------
+# This file controls the "New Issue" popup menu.
+# Setting blank_issues_enabled to false forces users
+# to pick one of the defined templates (Bug or Feature).
+# -------------------------------------------------
+
+blank_issues_enabled: false
