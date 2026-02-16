@@ -1,0 +1,63 @@
+# =============================================================================
+# Template Cleanup Workflow (Self-Deleting)
+# =============================================================================
+# This workflow runs ONCE when a new repository is created from this template.
+# It removes org-specific files that are not relevant for template instances,
+# then deletes itself.
+#
+# The condition ensures this workflow NEVER runs on repos owned by dbt-labs.
+# On the original repo, org-specific files are kept as-is.
+#
+# This is a safety net -- the template_setup.py script in the Terraform repo also
+# performs this cleanup in Phase 6, but this handles the case where someone
+# templates a dbt project repo without using the setup script.
+# =============================================================================
+
+name: Template Setup
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  cleanup:
+    # Only run if this is NOT the original demo repo
+    # (allows templating within dbt-labs org to other repo names)
+    if: github.repository != 'dbt-labs/sa_demo_data_eng'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # actions/checkout@v4.3.0
+
+      - name: Remove org-specific files
+        run: |
+          echo "Cleaning up org-specific files for template instance..."
+
+          # Remove org-specific workflows
+          rm -f .github/workflows/branch-cleanup.yml
+          rm -f .github/workflows/codeowners-check.yml
+          rm -f .github/workflows/trigger_slim_ci_job.yml
+
+          # Remove org-specific issue templates and PR template
+          rm -rf .github/ISSUE_TEMPLATE/
+          rm -f .github/pull_request_template.md
+          rm -f .github/CODEOWNERS
+
+          # Remove demo-specific scripts (paired with trigger_slim_ci_job workflow)
+          rm -f scripts/trigger_slim_ci_job.py
+
+          # Remove this workflow (self-delete)
+          rm -f .github/workflows/template-setup.yml
+
+          echo "Template cleanup complete."
+
+      - name: Commit and push cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: remove org-specific files from template instance"
+          git push
