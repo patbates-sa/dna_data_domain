@@ -1,3 +1,7 @@
+# TODO(SOURCE-ISOLATION): Move sources to a demo-specific sources database so
+# each demo instance has its own isolated raw data instead of sharing the 'raw'
+# database. When done, also remove the demo_takeout phase6 handling that
+# replaces +database for data_science (grep SOURCE-ISOLATION across all repos).
 sources:
   - name: tpch
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
@@ -172,6 +176,7 @@ sources:
           - name: s_comment
             description: '{{ doc("comment") }}'
 
+  # TODO(SOURCE-ISOLATION): Move to a demo-specific sources database (see top-of-file TODO)
   - name: tpch_now
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
     database: raw

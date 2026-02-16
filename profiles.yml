@@ -35,7 +35,7 @@ tr995_us1_70437463662253:
       type: snowflake
       threads: 16
       account: zna84829
-      warehouse: TRANSFORMING
+      warehouse: TRANSFORMING_V2
       role: TRANSFORMER
       database: data_engineering
 
