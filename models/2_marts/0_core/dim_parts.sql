@@ -1,8 +1,6 @@
 {{
   config(
     materialized = "table",
-    table_format="iceberg",
-    external_volume="ICEBERGEXVOL",
   )
 }}
 
