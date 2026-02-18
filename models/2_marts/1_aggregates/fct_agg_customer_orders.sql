@@ -1,7 +1,6 @@
 {{
   config(
     materialized = 'table',
-    catalog_name = 'iceberg_horizon'
   )
 }}
 
