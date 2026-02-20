@@ -9,6 +9,19 @@ dbt-cloud:
 # This profile is only used by ./dbt/profiles.yml when running locally, not relevant for cloud runs.
 profile: 'tr995_us1_70437463662253'
 
+# dbt_snowflake_query_tags: enables query tagging and comments for Snowflake query observability.
+# See https://hub.getdbt.com/get-select/dbt_snowflake_query_tags/latest/
+dispatch:
+  - macro_namespace: dbt
+    search_order:
+      - data_engineering
+      - dbt_snowflake_query_tags
+      - dbt
+
+query-comment:
+  comment: '{{ dbt_snowflake_query_tags.get_query_comment(node) }}'
+  append: true  # Snowflake removes prefixed comments
+
 # These configurations specify where dbt should look for different types of files.
 model-paths: ["models"]
 analysis-paths: ["analyses"]
