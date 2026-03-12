@@ -25,9 +25,6 @@ models:
         data_tests:
           - unique
           - not_null
-        entity:
-          type: primary
-          name: customer
       - name: region
         data_type: varchar(25)
         description: The geographical region where the customer is located
@@ -37,8 +34,6 @@ models:
                 severity: warn
               arguments:
                 values: ["AFRICA", "MIDDLE EAST", "ASIA", "EUROPE", "AMERICA"]
-        dimension:
-          type: categorical
       - name: name
         data_type: varchar(25)
         description: Full name of the customer
@@ -48,8 +43,6 @@ models:
       - name: nation
         data_type: varchar(25)
         description: The country of the customer's residence
-        dimension:
-          type: categorical
       - name: phone_number
         data_type: varchar(15)
         description: Phone number of the customer
@@ -59,9 +52,6 @@ models:
       - name: market_segment
         data_type: varchar(10)
         description: The market segment to which the customer belongs
-        dimension:
-          type: categorical
-          name: customer_market_segment
       - name: lifetime_value
         data_type: int
         description: Lifetime value for the customer
@@ -87,27 +77,44 @@ models:
         columns:
           - include: all
             exclude: [tier_name]
-        semantic_model:
-          enabled: true
-          name: customers
-        derived_semantics:
-          entities: []
-          dimensions:
-            # This dimension could have been a statically calculated column in the model
-            # That way, it would write the dimensions statically at model build time, making changes expensive.
-            #
-            # However, as a derived dimension, it builds upon the existing account_balance dimension,
-            # and applies a dynamic calculation at query time.
-            - name: customer_balance_segment
-              description: >
-                The segment of the customer's account balance.
-                This derived dimension is used to segment customers by account balance.
-              type: categorical
-              expr: |
-                case
-                  when account_balance < 0 then 'Bad Debt'
-                  when account_balance < 2500 then 'Low'
-                  when account_balance < 7500 then 'Medium'
-                  else 'High'
-                end
     latest_version: 2
+
+# Explicit semantic model definition for the customers dimension table.
+# Uses the standard semantic_models block because version-level semantic_model
+# config (on v2) is not supported for generating semantic models in dbt Cloud.
+semantic_models:
+  - name: customers
+    description: >
+      Customer dimension table at the individual customer level. This table contains one row
+      per customer and includes the customer key, enabling customer segmentation analysis
+      by market segment, account balance, nation, and region.
+    model: ref('dim_customers', v=2)
+    entities:
+      - name: customer
+        type: primary
+        expr: customer_key
+    dimensions:
+      - name: customer_market_segment
+        description: The market segment to which the customer belongs
+        type: categorical
+        expr: market_segment
+      - name: customer_balance_segment
+        description: >
+          The segment of the customer's account balance.
+          This derived dimension is used to segment customers by account balance.
+        type: categorical
+        expr: |
+          case
+            when account_balance < 0 then 'Bad Debt'
+            when account_balance < 2500 then 'Low'
+            when account_balance < 7500 then 'Medium'
+            else 'High'
+          end
+      - name: nation
+        description: The country of the customer's residence
+        type: categorical
+        expr: nation
+      - name: region
+        description: The geographical region where the customer is located
+        type: categorical
+        expr: region

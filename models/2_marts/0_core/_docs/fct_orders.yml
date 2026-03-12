@@ -77,7 +77,7 @@ models:
       name: orders
     agg_time_dimension: order_date
     metrics:
-      # Simple metrics
+      # Simple metrics - these create measures and metrics on this semantic model
       - name: total_revenue
         description: The total revenue for the business, aggregated from gross item sales amounts
         type: simple
@@ -90,7 +90,7 @@ models:
         label: Total Customers
         agg: count_distinct
         expr: customer_key
-      # Derived metrics
+      # Ratio metric
       - name: average_revenue_per_customer
         description: The average revenue per customer, calculated as total revenue divided by total customers
         type: ratio
@@ -98,8 +98,36 @@ models:
         numerator: total_revenue
         denominator: total_customers
 
-# Derived metrics from multiple models
+# Top-level metrics that reference other metrics (cumulative and cross-model derived)
 metrics:
+  # Cumulative metrics - these reference existing metrics via input_metric
+  - name: cumulative_revenue_total
+    description: The cumulative total revenue for the business across all time
+    type: cumulative
+    label: Cumulative Revenue (All-Time)
+    input_metric: total_revenue
+  - name: cumulative_revenue_ttm
+    description: Cumulative revenue for the trailing twelve months
+    type: cumulative
+    label: Cumulative Revenue (TTM)
+    input_metric: total_revenue
+    period_agg: first
+    window: 12 months
+  - name: weekly_customers
+    description: Number of active weekly customers over a rolling 7-day window
+    type: cumulative
+    label: Weekly Active Customers
+    input_metric: total_customers
+    period_agg: first
+    window: 7 days
+  - name: monthly_customers
+    description: Number of active monthly customers over a rolling 1-month window
+    type: cumulative
+    label: Monthly Active Customers
+    input_metric: total_customers
+    period_agg: first
+    window: 1 month
+  # Cross-model derived metric
   - name: total_profit
     description: >
       The total profit for the business, calculated as total revenue minus total expense.

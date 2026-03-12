@@ -24,3 +24,45 @@ saved_queries:
           export_as: table
           schema: semantic_layer
           alias: monthly_revenue_summary
+
+  - name: metrics_sales_by_region
+    description: >
+      Sales metrics broken down by customer region and nation. Provides daily-grain
+      revenue, expense, and profit analysis by geography, enabling regional performance
+      comparison and market analysis.
+    label: Sales Metrics by Region
+    config:
+      cache:
+        enabled: true
+    query_params:
+      metrics:
+        - total_revenue
+        - total_expense
+        - total_profit
+      group_by:
+        - TimeDimension('metric_time', 'day')
+        - Dimension('customer__region')
+        - Dimension('customer__nation')
+    exports:
+      - name: sales_metrics_by_region
+        config:
+          export_as: table
+          schema: semantic_layer
+          alias: sales_metrics_by_region
+
+  - name: metrics_cumulative_revenue_total
+    description: >
+      Daily cumulative revenue for trailing twelve months. Powers trend analysis
+      dashboards and financial reporting for revenue growth tracking.
+    label: Cumulative Revenue
+    query_params:
+      metrics:
+        - cumulative_revenue_ttm
+      group_by:
+        - TimeDimension('metric_time', 'day')
+    exports:
+      - name: cumulative_revenue
+        config:
+          export_as: table
+          schema: semantic_layer
+          alias: cumulative_revenue
