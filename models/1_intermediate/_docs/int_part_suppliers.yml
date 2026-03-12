@@ -1,5 +1,6 @@
 # Documentation for int_part_suppliers model
 # Intermediate model joining part, supplier and part_supplier data
+# Versioned: v1 includes container, v2 replaces container with calculated inventory fields
 
 models:
   - name: int_part_suppliers
@@ -42,3 +43,20 @@ models:
         description: '{{ doc("available_quantity") }}'
       - name: cost
         description: '{{ doc("cost") }}'
+      - name: total_inventory_value
+        description: Total inventory value calculated as available quantity multiplied by cost
+      - name: supply_margin
+        description: Margin between retail price and supplier cost
+      - name: stock_status
+        description: Stock level classification based on available quantity (Out of Stock, Low Stock, Normal Stock, High Stock)
+    versions:
+      - v: 1
+        columns:
+          - include: all
+            exclude: [total_inventory_value, supply_margin, stock_status]
+        deprecation_date: 2026-09-30 00:00:00+00:00
+      - v: 2
+        columns:
+          - include: all
+            exclude: [container]
+    latest_version: 2
