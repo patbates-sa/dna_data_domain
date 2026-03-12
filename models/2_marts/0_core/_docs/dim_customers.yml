@@ -1,5 +1,5 @@
 # Documentation for dim_customers model
-# Customer dimensions table with contract enforcement and versioning
+# Customer dimensions table with contract enforcement
 # Includes semantic layer definitions for customer segmentation analysis
 
 models:
@@ -25,6 +25,9 @@ models:
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: customer
       - name: region
         data_type: varchar(25)
         description: The geographical region where the customer is located
@@ -34,6 +37,8 @@ models:
                 severity: warn
               arguments:
                 values: ["AFRICA", "MIDDLE EAST", "ASIA", "EUROPE", "AMERICA"]
+        dimension:
+          type: categorical
       - name: name
         data_type: varchar(25)
         description: Full name of the customer
@@ -43,6 +48,8 @@ models:
       - name: nation
         data_type: varchar(25)
         description: The country of the customer's residence
+        dimension:
+          type: categorical
       - name: phone_number
         data_type: varchar(15)
         description: Phone number of the customer
@@ -52,12 +59,12 @@ models:
       - name: market_segment
         data_type: varchar(10)
         description: The market segment to which the customer belongs
+        dimension:
+          type: categorical
+          name: customer_market_segment
       - name: lifetime_value
         data_type: int
         description: Lifetime value for the customer
-      - name: tier_name
-        data_type: string
-        description: Tier of the customer
       - name: is_high_value
         data_type: varchar(1)
         description: High revenue account flag
@@ -67,54 +74,21 @@ models:
       - name: is_low_value
         data_type: varchar(1)
         description: Low revenue account flag
-    versions:
-      - v: 1
-        columns:
-          - include: all
-            exclude: [is_high_value, is_mid_value, is_low_value]
-        deprecation_date: 2026-01-31 00:00:00+00:00
-      - v: 2
-        columns:
-          - include: all
-            exclude: [tier_name]
-    latest_version: 2
-
-# Explicit semantic model definition for the customers dimension table.
-# Uses the standard semantic_models block because version-level semantic_model
-# config (on v2) is not supported for generating semantic models in dbt Cloud.
-semantic_models:
-  - name: customers
-    description: >
-      Customer dimension table at the individual customer level. This table contains one row
-      per customer and includes the customer key, enabling customer segmentation analysis
-      by market segment, account balance, nation, and region.
-    model: ref('dim_customers', v=2)
-    entities:
-      - name: customer
-        type: primary
-        expr: customer_key
-    dimensions:
-      - name: customer_market_segment
-        description: The market segment to which the customer belongs
-        type: categorical
-        expr: market_segment
-      - name: customer_balance_segment
-        description: >
-          The segment of the customer's account balance.
-          This derived dimension is used to segment customers by account balance.
-        type: categorical
-        expr: |
-          case
-            when account_balance < 0 then 'Bad Debt'
-            when account_balance < 2500 then 'Low'
-            when account_balance < 7500 then 'Medium'
-            else 'High'
-          end
-      - name: nation
-        description: The country of the customer's residence
-        type: categorical
-        expr: nation
-      - name: region
-        description: The geographical region where the customer is located
-        type: categorical
-        expr: region
+    semantic_model:
+      enabled: true
+      name: customers
+    derived_semantics:
+      entities: []
+      dimensions:
+        - name: customer_balance_segment
+          description: >
+            The segment of the customer's account balance.
+            This derived dimension is used to segment customers by account balance.
+          type: categorical
+          expr: |
+            case
+              when account_balance < 0 then 'Bad Debt'
+              when account_balance < 2500 then 'Low'
+              when account_balance < 7500 then 'Medium'
+              else 'High'
+            end
