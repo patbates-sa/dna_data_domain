@@ -65,6 +65,9 @@ models:
       - name: lifetime_value
         data_type: int
         description: Lifetime value for the customer
+      - name: tier_name
+        data_type: string
+        description: Tier of the customer
       - name: is_high_value
         data_type: varchar(1)
         description: High revenue account flag

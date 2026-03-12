@@ -24,14 +24,19 @@ customer_flags as (
     select * from {{ ref('int_customer_flags') }}
 
 ),
+customer_tier as (
+
+    select * from {{ ref('int_customer_tier') }}
+
+),
 
 final as (
-    select 
+    select
         customer.customer_key,
         customer.name,
         customer.address,
-        --- Break the contract 
-        -- nation.nation_key as nation_key, 
+        --- Break the contract
+        -- nation.nation_key as nation_key,
         nation.name as nation,
         --- Break the contract again
         -- region.region_key as region_key,
@@ -40,6 +45,7 @@ final as (
         customer.account_balance,
         customer.market_segment,
         customer_flags.lifetime_value,
+        customer_tier.tier_name,
         customer_flags.is_high_value,
         customer_flags.is_mid_value,
         customer_flags.is_low_value
@@ -51,6 +57,8 @@ final as (
             on nation.region_key = region.region_key
         left join customer_flags
             on customer.customer_key = customer_flags.customer_key
+        left join customer_tier
+            on customer.customer_key = customer_tier.customer_key
 )
 select 
     *
