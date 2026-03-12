@@ -105,23 +105,35 @@ metrics:
     description: The cumulative total revenue for the business across all time
     type: cumulative
     label: Cumulative Revenue (All-Time)
-    measure: total_revenue
+    type_params:
+      measure: total_revenue
   - name: cumulative_revenue_ttm
     description: Cumulative revenue for the trailing twelve months
     type: cumulative
     label: Cumulative Revenue (TTM)
-    measure: total_revenue
-    cumulative_type_params:
-      period_agg: first
-      window: 12 months
+    type_params:
+      measure: total_revenue
+      cumulative_type_params:
+        period_agg: first
+        window: 12 months
+  - name: weekly_customers
+    description: Number of active weekly customers over a rolling 7-day window
+    type: cumulative
+    label: Weekly Active Customers
+    type_params:
+      measure: total_customers
+      cumulative_type_params:
+        period_agg: first
+        window: 7 days
   - name: monthly_customers
     description: Number of active monthly customers over a rolling 1-month window
     type: cumulative
     label: Monthly Active Customers
-    measure: total_customers
-    cumulative_type_params:
-      period_agg: first
-      window: 1 month
+    type_params:
+      measure: total_customers
+      cumulative_type_params:
+        period_agg: first
+        window: 1 month
   # Derived metrics from multiple models
   - name: total_profit
     description: >
@@ -130,17 +142,10 @@ metrics:
       Defaults to day-grain analysis, aligning total_revenue with total_expense from the order_items semantic model.
     type: derived
     label: Total Profit
-    expr: revenue - expense
-    input_metrics:
-      - name: total_revenue
-        alias: revenue
-      - name: total_expense # This metric is defined in the order_items semantic model
-        alias: expense
-  - name: weekly_customers
-    description: Number of active weekly customers over a rolling 7-day window
-    type: cumulative
-    label: Weekly Active Customers
-    measure: total_customers
-    cumulative_type_params:
-      period_agg: first
-      window: 7 days
+    type_params:
+      expr: revenue - expense
+      metrics:
+        - name: total_revenue
+          alias: revenue
+        - name: total_expense # This metric is defined in the order_items semantic model
+          alias: expense
