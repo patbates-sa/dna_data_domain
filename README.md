@@ -1,4 +1,14 @@
-# Data Engineering dbt Project
+# SA Demo 2.0: Data Engineering
+
+## Repository/project map
+
+| Project | Repository | dbt Platform |
+|---------|-----------|-----------|
+| Terraform Infrastructure | [sa-demo-terraform](https://github.com/dbt-labs/sa-demo-terraform) | — |
+| Data Engineering | [sa_demo_data_eng](https://github.com/dbt-labs/sa_demo_data_eng) | [Open in dbt Platform](https://tr995.us1.dbt.com/deploy/70437463654940/projects/70437463662253) |
+| Sales Analytics | [sa_demo_da_sales](https://github.com/dbt-labs/sa_demo_da_sales) | [Open in dbt Platform](https://tr995.us1.dbt.com/deploy/70437463654940/projects/70437463662273) |
+| Marketing Analytics | [sa_demo_da_marketing](https://github.com/dbt-labs/sa_demo_da_marketing) | [Open in dbt Platform](https://tr995.us1.dbt.com/deploy/70437463654940/projects/70437463662272) |
+| Data Science | [sa_demo_ds](https://github.com/dbt-labs/sa_demo_ds) | [Open in dbt Platform](https://tr995.us1.dbt.com/deploy/70437463654940/projects/70437463662271) |
 
 ## Local Development Setup
 
