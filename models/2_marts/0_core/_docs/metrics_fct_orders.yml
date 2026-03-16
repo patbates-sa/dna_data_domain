@@ -37,9 +37,7 @@ metrics:
       Defaults to day-grain analysis, aligning total_revenue with total_expense from the order_items semantic model.
     type: derived
     label: Total Profit
-    expr: revenue - expense
+    expr: total_revenue - total_expense
     input_metrics:
-      - name: total_revenue
-        alias: revenue
-      - name: total_expense # This metric is defined in the order_items semantic model
-        alias: expense
+      - total_revenue
+      - total_expense # This metric is defined in the order_items semantic model
