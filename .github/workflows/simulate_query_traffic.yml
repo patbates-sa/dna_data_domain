@@ -1,0 +1,39 @@
+name: Simulate Query Traffic
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Daily at midnight UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  simulate-query-traffic:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt-snowflake
+        run: pip install dbt-snowflake
+
+      - name: Install dbt packages
+        working-directory: sa_demo_data_eng
+        run: dbt deps
+
+      - name: Simulate query traffic
+        working-directory: sa_demo_data_eng
+        env:
+          DBT_SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
+          DBT_SNOWFLAKE_PASSWORD: ${{ secrets.DBT_SNOWFLAKE_PASSWORD }}
+          DBT_DEVELOPMENT_SCHEMA: PRODUCTION
+        run: >
+          dbt run-operation simulate_query_traffic
+          --args '{"database_name": "DATA_ENGINEERING", "schema_name": "PRODUCTION"}'
