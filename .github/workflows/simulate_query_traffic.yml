@@ -28,11 +28,17 @@ jobs:
         working-directory: sa_demo_data_eng
         run: dbt deps
 
+      - name: Write Snowflake private key
+        run: |
+          echo "${{ secrets.DBT_SNOWFLAKE_PRIVATE_KEY }}" > /tmp/snowflake_rsa_key.p8
+          chmod 600 /tmp/snowflake_rsa_key.p8
+
       - name: Simulate query traffic
         working-directory: sa_demo_data_eng
         env:
           DBT_SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
-          DBT_SNOWFLAKE_PASSWORD: ${{ secrets.DBT_SNOWFLAKE_PASSWORD }}
+          DBT_SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/snowflake_rsa_key.p8
+          DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
           DBT_DEVELOPMENT_SCHEMA: PRODUCTION
         run: >
           dbt run-operation simulate_query_traffic
