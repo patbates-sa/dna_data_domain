@@ -32,6 +32,14 @@ jobs:
           echo "${{ secrets.DBT_SNOWFLAKE_PRIVATE_KEY }}" > /tmp/snowflake_rsa_key.p8
           chmod 600 /tmp/snowflake_rsa_key.p8
 
+      - name: Validate semantic layer
+        env:
+          DBT_SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
+          DBT_SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/snowflake_rsa_key.p8
+          DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
+          DBT_DEVELOPMENT_SCHEMA: PRODUCTION
+        run: dbt sl validate
+
       - name: Simulate query traffic
         env:
           DBT_SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
