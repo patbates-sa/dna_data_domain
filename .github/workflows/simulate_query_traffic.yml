@@ -21,11 +21,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dbt-snowflake
-        run: pip install dbt-snowflake
-
-      - name: Install dbt packages
-        run: dbt deps
+      - name: Install dependencies
+        run: pip install snowflake-connector-python cryptography
 
       - name: Write Snowflake private key
         run: |
@@ -34,10 +31,7 @@ jobs:
 
       - name: Simulate query traffic
         env:
-          DBT_SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
-          DBT_SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/snowflake_rsa_key.p8
-          DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
-          DBT_DEVELOPMENT_SCHEMA: PRODUCTION
-        run: >
-          dbt run-operation simulate_query_traffic
-          --args '{"database_name": "DATA_ENGINEERING", "schema_name": "PRODUCTION"}'
+          SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/snowflake_rsa_key.p8
+          SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
+        run: python scripts/simulate_query_traffic.py
