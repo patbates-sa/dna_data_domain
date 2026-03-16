@@ -4,10 +4,15 @@
 
 models:
   - name: int_part_suppliers
-    description: Intermediate model where we join part, supplier and part_supplier. This model is at the part supplier level.
+    description: >
+      Intermediate model where we join part, supplier and part_supplier. This model is at the part supplier level.
+      This model enforces a dbt contract — all column names and data types are guaranteed and breaking changes will
+      cause the model to fail at parse time.
     config:
       contract:
         enforced: true
+      meta:
+        owner: data@acme.co
     columns:
       - name: part_supplier_key
         description: Primary key of the model

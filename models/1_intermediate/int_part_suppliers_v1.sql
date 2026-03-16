@@ -1,6 +1,7 @@
 {{ config(
     materialized='incremental',
-    unique_key='part_supplier_key'
+    unique_key='part_supplier_key',
+    contract={'enforced': true}
 ) }}
 
 with part as (
