@@ -25,7 +25,6 @@ jobs:
         run: pip install dbt-snowflake
 
       - name: Install dbt packages
-        working-directory: sa_demo_data_eng
         run: dbt deps
 
       - name: Write Snowflake private key
@@ -34,7 +33,6 @@ jobs:
           chmod 600 /tmp/snowflake_rsa_key.p8
 
       - name: Simulate query traffic
-        working-directory: sa_demo_data_eng
         env:
           DBT_SNOWFLAKE_USER: ${{ secrets.DBT_SNOWFLAKE_USER }}
           DBT_SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/snowflake_rsa_key.p8
