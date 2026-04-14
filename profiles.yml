@@ -39,6 +39,7 @@ tr995_us1_70437463662253:
 
       # User-specific values from environment variables
       authenticator: externalbrowser
+      client_store_temporary_credential: true
       user: "{{ env_var('DBT_SNOWFLAKE_USER') }}"
       schema: "{{ env_var('DBT_DEVELOPMENT_SCHEMA') }}"
 
