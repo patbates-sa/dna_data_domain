@@ -44,19 +44,3 @@ dbt debug
 ```
 
 You should see "All checks passed!" if everything is configured correctly.
-
----
-
-## Using the Project
-
-```bash
-dbt run    # Run all models
-dbt test   # Run all tests
-```
-
-## Resources
-
-- [dbt Documentation](https://docs.getdbt.com/docs/introduction)
-- [dbt Discourse](https://discourse.getdbt.com/) — Q&A
-- [dbt Community](https://getdbt.com/community)
-- [dbt Blog](https://blog.getdbt.com/)
