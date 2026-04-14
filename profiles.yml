@@ -7,24 +7,22 @@
 #
 # QUICK REFERENCE
 # ---------------
-# You need to set 4 environment variables on your Mac. These are values that
+# You need to set 2 environment variables on your Mac. These are values that
 # dbt reads automatically when you run commands.
 #
 # To set them up:
 #   1. Open Terminal
 #   2. Run this command to open your shell config file:
 #        open -e ~/.zshrc
-#   3. Add these 3 lines at the bottom (replace the values with your own):
+#   3. Add these 2 lines at the bottom (replace the values with your own):
 #
-#        export DBT_SNOWFLAKE_USER="your_snowflake_username"
+#        export DBT_SNOWFLAKE_USER="your_snowflake_sso_email"
 #        export DBT_DEVELOPMENT_SCHEMA="dbt_yourname"
-#        export DBT_SNOWFLAKE_PRIVATE_KEY_PATH="~/.ssh/snowflake_rsa_key.p8"
-#        export DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE="your_passphrase_from_step_1"
 #
 #   4. Save (Cmd+S) and close the file
 #   5. Run this in Terminal to apply the changes:
 #        source ~/.zshrc
-#   6. Test your connection:
+#   6. Test your connection (a browser window will open for SSO login):
 #        dbt debug
 #
 # =============================================================================
@@ -34,15 +32,14 @@ tr995_us1_70437463662253:
     dev:
       type: snowflake
       threads: 16
-      account: zna84829
+      account: CMVGRNF-SA_DEMO_2
       warehouse: TRANSFORMING_V2
       role: TRANSFORMER
-      database: data_engineering
+      database: DATA_ENGINEERING_DEV
 
       # User-specific values from environment variables
+      authenticator: externalbrowser
       user: "{{ env_var('DBT_SNOWFLAKE_USER') }}"
       schema: "{{ env_var('DBT_DEVELOPMENT_SCHEMA') }}"
-      private_key_path: "{{ env_var('DBT_SNOWFLAKE_PRIVATE_KEY_PATH') }}"
-      private_key_passphrase: "{{ env_var('DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE') }}"
 
   target: dev
