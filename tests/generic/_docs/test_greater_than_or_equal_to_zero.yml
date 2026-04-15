@@ -2,7 +2,7 @@
 # This test validates that all values in a column are non-negative (>= 0)
 
 macros:
-  - name: test_greater_than_or_equal_to_zero
+  - name: greater_than_or_equal_to_zero
     description: |
       A generic data test that validates all values in a specified column are 
       greater than or equal to zero.

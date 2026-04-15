@@ -38,7 +38,7 @@ macros:
       **Note:** Tagged with 'finance' for organizational purposes.
     arguments:
       - name: results
-        type: object
+        type: any
         description: |
           The dbt run results object, automatically passed when called from on-run-end hook.
           Contains information about all executed nodes including tests and their statuses.
