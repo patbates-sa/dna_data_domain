@@ -2,22 +2,16 @@
 # This test validates that all values in a column are non-negative (>= 0)
 
 macros:
-  - name: greater_than_or_equal_to_zero
+  - name: test_greater_than_or_equal_to_zero
     description: |
-      A generic data test that validates all values in a specified column are 
+      A generic data test that validates all values in a specified column are
       greater than or equal to zero.
-      
+
       The test returns all rows where the column value is less than zero.
       If any rows are returned, the test fails.
-    arguments:
-      - name: model
-        type: relation
-        description: |
-          The model, source, seed, or snapshot being tested. 
-          This argument is automatically provided by dbt based on where the test is defined.
-      - name: column_name
-        type: string
-        description: |
-          The name of the column to validate for non-negative values.
-          This argument is automatically provided by dbt based on the column where the test is applied.
+
+      The `model` and `column_name` arguments are automatically provided by dbt
+      based on where the test is applied and are not explicitly documented here,
+      as dbt Fusion does not expose them as documentable macro arguments for
+      generic test blocks.
 
