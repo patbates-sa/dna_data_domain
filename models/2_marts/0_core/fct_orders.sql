@@ -44,15 +44,15 @@ final as (
         orders.order_time,
         orders.customer_key,
         orders.status_code,
+        orders.status_label,
         orders.priority_code,
+        orders.priority_label,
+        orders.is_high_priority,
         orders.clerk_name,
-        orders.ship_priority,     
+        orders.ship_priority,
         1 as order_count,
-        order_item_summary.return_count,             
-        order_item_summary.gross_item_sales_amount,
-        order_item_summary.item_discount_amount,
-        order_item_summary.item_tax_amount,
-        order_item_summary.net_item_sales_amount
+        order_item_summary.return_count,
+        {{ standard_account_fields('order_item_summary') }}
     from
         orders
         inner join order_item_summary

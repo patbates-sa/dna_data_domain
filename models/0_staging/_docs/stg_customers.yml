@@ -19,7 +19,7 @@ models:
       - name: phone_number
         description: Phone number of the customer
       - name: account_balance
-        description: Total account balance from the customer
+        description: Customer account balance from the source system, modeled as a dollar-denominated amount.
       - name: market_segment
         description: Market segment of the customer
       - name: comment

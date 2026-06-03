@@ -1,0 +1,41 @@
+macros:
+  - name: order_status_label
+    description: |
+      Standardizes raw order status codes into analytics-friendly labels.
+
+      Use this macro when exposing order status from source or staging models so downstream
+      marts and BI consumers do not need to interpret single-character source codes.
+    arguments:
+      - name: status_code
+        type: string
+        description: Column reference containing the raw order status code.
+
+  - name: order_priority_label
+    description: |
+      Standardizes raw order priority codes into normalized priority bands.
+
+      The mapping is:
+      - `1-URGENT` -> `P0`
+      - `2-HIGH` -> `P1`
+      - `3-MEDIUM` -> `P2`
+      - `4-NOT SPECIFIED` -> `null`
+      - `5-LOW` -> `P4`
+
+      This keeps priority naming consistent anywhere order priority is surfaced, especially
+      between staging models and marts.
+    arguments:
+      - name: priority_code
+        type: string
+        description: Column reference containing the raw order priority code.
+
+  - name: is_high_priority_order
+    description: |
+      Flags urgent and high-priority orders using the project's shared priority definition.
+
+      Orders with priority codes `1-URGENT` and `2-HIGH` are treated as high priority.
+      All other known priorities evaluate to `false`.
+    arguments:
+      - name: priority_code
+        type: string
+        description: Column reference containing the raw order priority code.
+
