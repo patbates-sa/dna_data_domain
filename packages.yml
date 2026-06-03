@@ -2,8 +2,8 @@ packages:
   - package: dbt-labs/dbt_utils
     version: 1.3.3
   - package: get-select/dbt_query_tags
-    version: 3.1.0
+    version: 3.1.0 # v3.2.0 marked as not compatible with Fusion, might be a false positive, see https://github.com/dbt-labs/hub.getdbt.com/issues/4500
   - package: metaplane/dbt_expectations
     version: 0.10.10
   - package: godatadriven/dbt_date
-    version: 0.17.2
+    version: 0.17.2 # v0.18.0 marked as not compatible with Fusion, might be a false positive, similar to https://github.com/dbt-labs/hub.getdbt.com/issues/4500
