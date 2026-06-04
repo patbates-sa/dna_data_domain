@@ -2,12 +2,9 @@
     config(
         materialized='table',
         tags=['finance'],
-        freshness={
-            "build_after": {
-                "count": 8,
-                "period": "hour",
-                "updates_on": "all"
-            }
+        state={
+            "lag_tolerance": "8h",
+            "require_fresh_data_from": "all"
         }
     )
 }}

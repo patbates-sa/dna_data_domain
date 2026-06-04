@@ -50,15 +50,11 @@ models:
   data_engineering:
     0_staging:
       +materialized: view
-      +freshness:
-        build_after:
-          count: 2
-          period: hour
+      +state:
+        lag_tolerance: 2h
     2_marts:
       +materialized: "{{ env_var('DBT_MATERIALIZATION', 'view') }}"
-      +freshness:
-        build_after:
-          count: 1
-          period: day
+      +state:
+        lag_tolerance: 1d
       +grants:
         select: ['REPORTER']
