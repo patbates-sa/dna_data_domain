@@ -19,7 +19,7 @@ models:
       - name: phone_number
         description: '{{ doc("phone_number") }}'
       - name: account_balance
-        description: '{{ doc("account_balance") }}'
+        description: Supplier account balance from the source system, modeled as a dollar-denominated amount.
         data_tests:
           - greater_than_or_equal_to_zero:
               config:

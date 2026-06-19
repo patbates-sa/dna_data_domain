@@ -44,15 +44,29 @@ models:
           type: time
         granularity: hour
       - name: status_code
-        description: The current status of the order, represented by a code
+        description: The current status of the order, represented by a raw source code
         dimension:
           type: categorical
           name: order_status_code
+      - name: status_label
+        description: Standardized order status label derived from `status_code` using the shared `order_status_label()` macro.
+        dimension:
+          type: categorical
+          name: order_status_label
       - name: priority_code
-        description: A code indicating the priority level of the order
+        description: A raw code indicating the priority level of the order
         dimension:
           type: categorical
           name: order_priority_code
+      - name: priority_label
+        description: Normalized priority band derived from `priority_code` using the shared `order_priority_label()` macro. Urgent maps to `P0`, high to `P1`, medium to `P2`, low to `P4`, and not specified maps to null.
+        dimension:
+          type: categorical
+          name: order_priority_label
+      - name: is_high_priority
+        description: Boolean flag indicating whether the order is urgent or high priority according to the shared `is_high_priority_order()` macro.
+        dimension:
+          type: categorical
       - name: clerk_name
         description: The name of the clerk who processed the order
         dimension:

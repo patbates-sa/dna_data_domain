@@ -16,9 +16,11 @@ models:
       - name: customer_key
         description: Foreign key to stg_customers
       - name: status_code
-        description: Status of the order
+        description: Raw status code from the source orders table.
+      - name: status_label
+        description: Standardized order status label derived from `status_code` using the shared `order_status_label()` macro.
       - name: total_price
-        description: Raw price
+        description: Total order value from the source orders table, modeled as a dollar-denominated amount.
         data_tests:
           - greater_than_or_equal_to_zero
       - name: order_date
@@ -26,7 +28,11 @@ models:
       - name: order_time
         description: ""
       - name: priority_code
-        description: Code associated with the order
+        description: Raw order priority code from the source orders table.
+      - name: priority_label
+        description: Normalized priority band derived from `priority_code` using the shared `order_priority_label()` macro. Urgent maps to `P0`, high to `P1`, medium to `P2`, low to `P4`, and not specified maps to null.
+      - name: is_high_priority
+        description: Boolean flag derived from `priority_code` using the shared `is_high_priority_order()` macro. True for urgent and high-priority orders.
       - name: clerk_name
         description: Identifier of the clerk
       - name: ship_priority
