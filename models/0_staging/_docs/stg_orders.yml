@@ -5,10 +5,8 @@ models:
   - name: stg_orders
     description: Staging layer for orders data
     config:
-      freshness:
-        build_after:
-          count: 1
-          period: day  # SLA: Only rebuild this model once per day maximum
+      state:
+        lag_tolerance: 1d  # SLA: Only rebuild this model once per day maximum
     columns:
       - name: order_key
         description: Primary key of the model
