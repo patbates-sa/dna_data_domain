@@ -59,7 +59,7 @@ def main():
 
     conn = snowflake.connector.connect(
         user=os.environ["SNOWFLAKE_USER"],
-        account="zna84829",
+        account="CMVGRNF-SA_DEMO_2",
         warehouse="TRANSFORMING_V2",
         role="TRANSFORMER",
         database=DATABASE,
