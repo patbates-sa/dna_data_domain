@@ -52,7 +52,7 @@ models:
         data_type: varchar(15)
         description: Phone number of the customer
       - name: account_balance
-        data_type: number(38,0)
+        data_type: number(12,2)
         description: '{{ doc("account_balance") }}'
       - name: market_segment
         data_type: varchar(10)
@@ -61,7 +61,7 @@ models:
           type: categorical
           name: customer_market_segment
       - name: lifetime_value
-        data_type: int
+        data_type: number(24,2)
         description: Lifetime value for the customer
       - name: tier_name
         data_type: string
