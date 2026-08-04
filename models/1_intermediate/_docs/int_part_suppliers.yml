@@ -43,7 +43,7 @@ models:
         data_type: character varying(10)
       - name: retail_price
         description: '{{ doc("retail_price") }}'
-        data_type: number(38,0)
+        data_type: number(12,2)
       - name: supplier_key
         description: Foreign key for suppliers
         data_type: number(38,0)
@@ -58,7 +58,7 @@ models:
         data_type: character varying(15)
       - name: account_balance
         description: '{{ doc("account_balance") }}'
-        data_type: number(38,0)
+        data_type: number(12,2)
       - name: nation_key
         description: Foreign key for nations
         data_type: number(38,0)
@@ -67,13 +67,13 @@ models:
         data_type: number(38,0)
       - name: cost
         description: '{{ doc("cost") }}'
-        data_type: number(38,0)
+        data_type: number(12,2)
       - name: total_inventory_value
         description: Total inventory value calculated as available quantity multiplied by cost
-        data_type: number(38,0)
+        data_type: number(38,2)
       - name: supply_margin
         description: Margin between retail price and supplier cost
-        data_type: number(38,0)
+        data_type: number(13,2)
       - name: stock_status
         description: Stock level classification based on available quantity (Out of Stock, Low Stock, Normal Stock, High Stock)
         data_type: character varying(12)
