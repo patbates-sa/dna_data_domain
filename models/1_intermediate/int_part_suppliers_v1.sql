@@ -2,7 +2,7 @@
     materialized='incremental',
     unique_key='part_supplier_key',
     contract={'enforced': true},
-    on_schema_change = 'append_new_columns'
+    on_schema_change = 'fail'
 ) }}
 
 with part as (
