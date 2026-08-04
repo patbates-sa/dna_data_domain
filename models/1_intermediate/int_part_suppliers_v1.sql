@@ -1,7 +1,8 @@
 {{ config(
     materialized='incremental',
     unique_key='part_supplier_key',
-    contract={'enforced': true}
+    contract={'enforced': true},
+    on_schema_change = 'append_new_columns'
 ) }}
 
 with part as (
