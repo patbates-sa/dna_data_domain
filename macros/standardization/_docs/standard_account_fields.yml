@@ -20,14 +20,14 @@ macros:
       ```sql
       select
         order_key,
-        {{ standard_account_fields() }}
+        {% raw %}{{ standard_account_fields() }}{% endraw %}
       from order_item_summary
       ```
 
       ```sql
       select
         order_item_key,
-        {{ standard_account_fields('order_item') }}
+        {% raw %}{{ standard_account_fields() }}{% endraw %}
       from order_item
       ```
     arguments:
