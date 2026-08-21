@@ -21,16 +21,14 @@ renamed as (
         l_discount as discount_percentage,
         l_tax as tax_rate,
         
-        case 
-            when l_returnflag in ('R') then 'returned'
-            when l_returnflag in ('A') then 'accepted'
+        case l_returnflag
+            when 'R' then 'returned'
+            when 'A' then 'accepted'
+            when 'N' then 'not_returned'
             else 'unknown'
-        end as return_flag, 
+        end as return_flag,
 
-        case 
-            when return_flag = 'accepted' then false
-            else true
-        end as is_return,
+        l_returnflag = 'R' as is_return,
 
         case l_linestatus 
             when 'P' then 'returned'

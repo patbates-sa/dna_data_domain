@@ -19,10 +19,6 @@ models:
       - name: phone_number
         description: '{{ doc("phone_number") }}'
       - name: account_balance
-        description: Supplier account balance from the source system, modeled as a dollar-denominated amount.
-        data_tests:
-          - greater_than_or_equal_to_zero:
-              config:
-                severity: warn
+        description: Supplier account balance from the source system. Negative balances are valid and categorized downstream.
       - name: comment
         description: '{{ doc("comment") }}'
