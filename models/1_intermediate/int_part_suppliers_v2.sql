@@ -33,17 +33,17 @@ final as (
     part.brand,
     part.type as part_type,
     part.size as part_size,
-    part.retail_price,
+    cast(part.retail_price as number(12, 2)) as retail_price,
 
     supplier.supplier_key,
     supplier.supplier_name,
     supplier.supplier_address,
     supplier.phone_number,
-    supplier.account_balance,
+    cast(supplier.account_balance as number(12, 2)) as account_balance,
     supplier.nation_key,
 
     part_supplier.available_quantity,
-    part_supplier.cost,
+    cast(part_supplier.cost as number(12, 2)) as cost,
 
     -- v2: New calculated fields
     cast(part_supplier.available_quantity * part_supplier.cost as number(38, 2)) as total_inventory_value,
