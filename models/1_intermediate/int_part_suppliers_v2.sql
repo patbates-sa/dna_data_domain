@@ -46,8 +46,8 @@ final as (
     part_supplier.cost,
 
     -- v2: New calculated fields
-    part_supplier.available_quantity * part_supplier.cost as total_inventory_value,
-    part.retail_price - part_supplier.cost as supply_margin,
+    cast(part_supplier.available_quantity * part_supplier.cost as number(38, 2)) as total_inventory_value,
+    cast(part.retail_price - part_supplier.cost as number(13, 2)) as supply_margin,
     case
         when part_supplier.available_quantity = 0 then 'Out of Stock'
         when part_supplier.available_quantity < 100 then 'Low Stock'
