@@ -39,6 +39,8 @@ vars:
   # They are disabled by default so they don't break normal CI/CD runs.
   # Override at invocation time with: dbt build --vars '{run_designed_to_fail: true}'
   run_designed_to_fail: false
+  mesh_products_project: dna_data_products
+  mesh_domain_project: dna_data_domain
 
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
