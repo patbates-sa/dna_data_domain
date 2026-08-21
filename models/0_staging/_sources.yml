@@ -12,7 +12,7 @@ sources:
       # EXAMPLE 1: Source that ALWAYS triggers a rebuild
       # Using current_timestamp() as loaded_at_field means this source will always
       # appear "fresh" and trigger downstream rebuilds on every job run.
-      # Use this sparingly for sources that must always refresh downstream models.
+      # Use this sparingly for sources that must always refresh downstream models. testing
       - name: customer
         description: Main customer table
         config:
@@ -184,7 +184,7 @@ sources:
 
   - name: tpch_now
     description: Welcome to the dbt Labs demo dbt project! We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
-    database: SOURCE_DATA
+    database: RAW
     schema: TPCH_NOW
     config:
       freshness:
