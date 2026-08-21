@@ -15,7 +15,7 @@ renamed as (
         p_type as type,
         p_size as size,
         p_container as container,
-        p_retailprice as retail_price,
+        cast(p_retailprice as number(12, 2)) as retail_price,
         p_comment as comment
 
     from source
