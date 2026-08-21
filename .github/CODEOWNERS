@@ -1,5 +1,0 @@
-# These owners will be requested for review when someone opens a pull request.
-# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-
-# Global owners - these users must approve all PRs
-* @mfreeborndbt @joaoclemencio-dbtlabs @ctcac00 @tpugliese
