@@ -39,7 +39,7 @@ final as (
         -- nation.nation_key as nation_key,
         nation.name as nation,
         --- Break the contract again
-        -- region.region_key as region_key,
+        -- region.region_key as region_key, temp comment
         region.name as region,
         customer.phone_number,
         cast(customer.account_balance as number(12, 2)) as account_balance,
