@@ -33,7 +33,7 @@ models:
               config:
                 severity: warn
               arguments:
-                values: ['returned', 'accepted']
+                values: ['returned', 'accepted', 'not_returned']
       - name: is_return
         description: '{{ doc("is_return") }}'
       - name: status_code
@@ -54,3 +54,37 @@ models:
         description: '{{ doc("ship_mode") }}'
       - name: comment
         description: '{{ doc("comment") }}'
+
+unit_tests:
+  - name: stg_line_items_maps_return_flags
+    description: Return flags map to the expected status and return indicator.
+    model: stg_line_items
+    given:
+      - input: source('tpch_now', 'lineitem')
+        format: sql
+        rows: |
+          select
+              row_number() over (order by column1) as l_orderkey,
+              cast(null as number) as l_partkey,
+              cast(null as number) as l_suppkey,
+              1 as l_linenumber,
+              cast(null as number) as l_quantity,
+              cast(null as number) as l_extendedprice,
+              cast(null as number) as l_discount,
+              cast(null as number) as l_tax,
+              column1 as l_returnflag,
+              cast(null as varchar) as l_linestatus,
+              cast(null as date) as l_shipdate,
+              cast(null as date) as l_commitdate,
+              cast(null as date) as l_receiptdate,
+              cast(null as varchar) as l_shipinstruct,
+              cast(null as varchar) as l_shipmode,
+              cast(null as varchar) as l_comment,
+              cast(null as timestamp) as loaded_at
+          from values ('R'), ('A'), ('N'), ('X')
+    expect:
+      rows:
+        - {return_flag: returned, is_return: true}
+        - {return_flag: accepted, is_return: false}
+        - {return_flag: not_returned, is_return: false}
+        - {return_flag: unknown, is_return: false}

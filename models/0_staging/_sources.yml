@@ -272,13 +272,13 @@ sources:
           - name: l_tax
             description: Tax rate of the order item
           - name: l_returnflag
-            description: Letter determining the status of the return (R=returned, A=accepted)
+            description: Letter determining the return status (R=returned, A=accepted, N=not returned)
             data_tests:
               - accepted_values:
                   config:
                     severity: warn
                   arguments:
-                    values: ["R", "A"]
+                    values: ["R", "A", "N"]
           - name: l_linestatus
             description: Status code of the order item (P=returned, F=billed, O=shipped)
             data_tests:
