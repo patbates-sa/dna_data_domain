@@ -4,14 +4,20 @@
 
 models:
   - name: dim_customers
+    latest_version: 1
+    versions:
+      - v: 1
     config:
       contract:
         enforced: true
+      latest_version_pointer:
+        enabled: true
       group: data_team
       access: public
       state:
         lag_tolerance: 4h
         require_fresh_data_from: all  # Only rebuild when ALL upstream dependencies have new data
+
     description: >
       Customer dimensions table at the individual customer level. This model also includes
       a semantic model that contains one row per customer and includes the customer key,
