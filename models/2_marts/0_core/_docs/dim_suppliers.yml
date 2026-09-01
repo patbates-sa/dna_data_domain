@@ -4,15 +4,23 @@
 
 models:
   - name: dim_suppliers
+    latest_version: 1
+    versions:
+      - v: 1
     description: >
       Supplier dimension table containing supplier details and their geographical information.
       This model also includes a semantic model that enables analysis of supplier performance
       by nation, region, and account balance segment.
     config:
+      contract:
+        enforced: true
+      latest_version_pointer:
+        enabled: true
       group: data_team
       access: public
     columns:
       - name: supplier_key
+        data_type: number(38,0)
         description: A unique identifier for each supplier
         data_tests:
           - unique
@@ -21,23 +29,30 @@ models:
           type: primary
           name: supplier
       - name: supplier_name
+        data_type: varchar(25)
         description: '{{ doc("supplier_name") }}'
       - name: supplier_address
+        data_type: varchar(40)
         description: '{{ doc("supplier_address") }}'
       - name: nation
+        data_type: varchar(25)
         description: The nation where the supplier is located
         dimension:
           type: categorical
           name: supplier_nation
       - name: region
+        data_type: varchar(25)
         description: The region where the supplier operates
         dimension:
           type: categorical
           name: supplier_region
       - name: phone_number
+        data_type: varchar(15)
         description: '{{ doc("phone_number") }}'
       - name: account_balance
+        data_type: number(12,2)
         description: '{{ doc("account_balance") }}'
+
     semantic_model:
       enabled: true
       name: suppliers

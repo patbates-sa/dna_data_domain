@@ -4,15 +4,23 @@
 
 models:
   - name: fct_orders
+    latest_version: 1
+    versions:
+      - v: 1
     description: >
       Order fact table at the order level. This model also includes a semantic model that
       contains one row per order and includes the order key, enabling analysis of order-level
       metrics such as total revenue and customer counts.
     config:
+      contract:
+        enforced: true
+      latest_version_pointer:
+        enabled: true
       group: data_team
       access: public
     columns:
       - name: order_key
+        data_type: number(38,0)
         description: A unique identifier for each order
         data_tests:
           - unique
@@ -21,6 +29,7 @@ models:
           type: primary
           name: customer_order
       - name: customer_key
+        data_type: number(38,0)
         description: A unique identifier for the customer who placed the order
         data_tests:
           - relationships:
@@ -34,58 +43,74 @@ models:
           type: foreign
           name: customer
       - name: order_date
+        data_type: date
         description: The date on which the order was placed, used for daily-grain analysis
         dimension:
           type: time
         granularity: day
       - name: order_time
+        data_type: timestamp_ntz(9)
         description: The timestamp indicating the exact time the order was placed, used for hourly-grain analysis
         dimension:
           type: time
         granularity: hour
       - name: status_code
+        data_type: varchar(1)
         description: The current status of the order, represented by a raw source code
         dimension:
           type: categorical
           name: order_status_code
       - name: status_label
+        data_type: varchar(9)
         description: Standardized order status label derived from `status_code` using the shared `order_status_label()` macro.
         dimension:
           type: categorical
           name: order_status_label
       - name: priority_code
+        data_type: varchar(15)
         description: A raw code indicating the priority level of the order
         dimension:
           type: categorical
           name: order_priority_code
       - name: priority_label
+        data_type: varchar
         description: Normalized priority band derived from `priority_code` using the shared `order_priority_label()` macro. Urgent maps to `P0`, high to `P1`, medium to `P2`, low to `P4`, and not specified maps to null.
         dimension:
           type: categorical
           name: order_priority_label
       - name: is_high_priority
+        data_type: boolean
         description: Boolean flag indicating whether the order is urgent or high priority according to the shared `is_high_priority_order()` macro.
         dimension:
           type: categorical
       - name: clerk_name
+        data_type: varchar(15)
         description: The name of the clerk who processed the order
         dimension:
           type: categorical
           name: clerk_on_order
       - name: ship_priority
+        data_type: number(38,0)
         description: The priority level for shipping the order
       - name: order_count
+        data_type: number(1,0)
         description: The total number of items in the order
       - name: return_count
+        data_type: number(13,0)
         description: The number of items returned from the order
       - name: gross_item_sales_amount
+        data_type: number(38,0)
         description: '{{ doc("gross_item_sales_amount") }}'
       - name: item_discount_amount
+        data_type: number(28,3)
         description: '{{ doc("item_discount_amount") }}'
       - name: item_tax_amount
+        data_type: number(28,3)
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
+        data_type: number(28,3)
         description: '{{ doc("net_item_sales_amount") }}'
+
     semantic_model:
       enabled: true
       name: orders

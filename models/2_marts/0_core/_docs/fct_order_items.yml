@@ -4,6 +4,10 @@
 
 models:
   - name: fct_order_items
+    latest_version: 1
+    versions:
+      - v: 1
+
     data_tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
           name: orders_sales_amount_equals_order_item_sales_amount
@@ -18,6 +22,7 @@ models:
       that enables granular analysis of sales, expenses, and supplier metrics at the item level.
     columns:
       - name: order_item_key
+        data_type: varchar(32)
         description: '{{ doc("order_item_key") }}'
         data_tests:
           - unique
@@ -26,81 +31,111 @@ models:
           type: primary
           name: order_item
       - name: order_key
+        data_type: number(38,0)
         description: A unique identifier for the order associated with the item
         entity:
           type: foreign
           name: customer_order
       - name: order_date
+        data_type: date
         description: The date when the order was placed
         dimension:
           type: time
         granularity: day
       - name: customer_key
+        data_type: number(38,0)
         description: A unique identifier for the customer who placed the order
         entity:
           type: foreign
           name: customer
       - name: part_key
+        data_type: number(38,0)
         description: Foreign key for parts
       - name: supplier_key
+        data_type: number(38,0)
         description: A unique identifier for the supplier of the order item
         entity:
           type: foreign
           name: supplier
       - name: order_item_status_code
+        data_type: varchar
         description: The status code representing the current state of the order item
       - name: is_return
+        data_type: boolean
         description: '{{ doc("is_return") }}'
       - name: line_number
+        data_type: number(38,0)
         description: '{{ doc("line_number") }}'
       - name: ship_date
+        data_type: date
         description: The date when the order item was shipped, used for delivery timeline analysis
         dimension:
           type: time
         granularity: day
       - name: commit_date
+        data_type: date
         description: The date when the order item was committed for shipment, used for fulfillment timeline analysis
         dimension:
           type: time
         granularity: day
       - name: receipt_date
+        data_type: date
         description: The date when the order item was received by the customer, used for delivery timeline analysis
         dimension:
           type: time
         granularity: day
       - name: ship_mode
+        data_type: varchar(10)
         description: '{{ doc("ship_mode") }}'
       - name: supplier_cost
+        data_type: number(12,2)
         description: '{{ doc("cost") }}'
       - name: base_price
+        data_type: number(16,3)
         description: '{{ doc("base_price") }}'
       - name: discount_percentage
+        data_type: number(38,0)
         description: '{{ doc("discount_percentage") }}'
       - name: discounted_price
+        data_type: number(16,3)
         description: '{{ doc("discounted_price") }}'
       - name: tax_rate
+        data_type: number(38,0)
         description: '{{ doc("tax_rate") }}'
       - name: nation_key
+        data_type: number(38,0)
         description: A unique identifier for the nation associated with the order item
         data_tests:
           - not_null
       - name: order_item_count
+        data_type: number(1,0)
         description: The count of items in the order
       - name: quantity
+        data_type: number(38,0)
         description: The quantity of the order item
       - name: gross_item_sales_amount
+        data_type: number(38,0)
         description: '{{ doc("gross_item_sales_amount") }}'
       - name: discounted_item_sales_amount
+        data_type: number(16,3)
         description: '{{ doc("discounted_item_sales_amount") }}'
       - name: item_discount_amount
+        data_type: number(16,3)
         description: '{{ doc("item_discount_amount") }}'
       - name: item_tax_amount
+        data_type: number(16,3)
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
+        data_type: number(16,3)
         description: '{{ doc("net_item_sales_amount") }}'
     config:
+      contract:
+        enforced: true
+      latest_version_pointer:
+        enabled: true
       group: data_team
       access: public
+
     semantic_model:
       enabled: true
       name: order_items
