@@ -1,4 +1,6 @@
-# SA Demo 2.0: Data Engineering
+# Optimum Hub/Spoke Demo - dna_data_domain
+
+Based on SA Demo 2.0
 
 ## Repository/project map
 
